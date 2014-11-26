@@ -1,4 +1,4 @@
-package ru.ifmo.ctddev.web.controller;
+package ru.ifmo.ctddev.swapyourbook.controller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by root on 10/30/14.
+ * Created by root on 11/22/14.
  */
 @Controller
-@RequestMapping("/login")
-public class LoginController {
+@RequestMapping("/shit")
+public class ShitController {
 
     protected final Log logger = LogFactory.getLog(getClass());
 

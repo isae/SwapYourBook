@@ -28,7 +28,7 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="commonDAO" class="ru.ifmo.ctddev.dao.CommonDAO">
+    <bean id="commonDAO" class="ru.ifmo.ctddev.swapyourbook.dao.CommonDAO">
         <property name="jdbcTemplate" ref="jdbcTemplate" />
     </bean>
 
@@ -36,8 +36,8 @@
           class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           p:prefix="/jsp/"/>
 
-    <context:component-scan base-package="ru.ifmo.ctddev.web.controller"/>
-    <context:component-scan base-package="ru.ifmo.ctddev.dao"/>
+    <context:component-scan base-package="ru.ifmo.ctddev.swapyourbook.controller"/>
+    <context:component-scan base-package="ru.ifmo.ctddev.swapyourbook.dao"/>
 
 
 

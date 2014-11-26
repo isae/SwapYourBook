@@ -12,6 +12,8 @@
           <element id="library" level="project" name="Spring MVC-4.1.1.RELEASE" />
           <element id="file-copy" path="$APPLICATION_HOME_DIR$/lib/junit.jar" />
           <element id="library" level="project" name="mysql:mysql-connector-java:5.1.34" />
+          <element id="library" level="module" name="JUnit4" module-name="SwapYourBook" />
+          <element id="library" level="project" name="activation" />
         </element>
       </element>
     </root>

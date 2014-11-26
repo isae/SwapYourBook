@@ -1,4 +1,4 @@
-package ru.ifmo.ctddev.web.controller;
+package ru.ifmo.ctddev.swapyourbook.controller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
