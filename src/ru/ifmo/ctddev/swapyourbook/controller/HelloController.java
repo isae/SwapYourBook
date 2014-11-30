@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
@@ -17,7 +18,8 @@ public class HelloController {
     protected final Log logger = LogFactory.getLog(getClass());
 
     @RequestMapping(value ="/hello.htm", method = RequestMethod.GET)
-    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
+    public ModelAndView handleRequest(
+            HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         logger.info("Returning hello view");
         return new ModelAndView("hello.jsp");
