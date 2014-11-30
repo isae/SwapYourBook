@@ -17,7 +17,7 @@ public class HelloControllerTest extends TestCase {
         ModelAndView modelAndView = null;
         try {
             modelAndView = controller.handleRequest(null, null);
-            assertEquals("hello.jsp", modelAndView.getViewName());
+            assertEquals("index.jsp", modelAndView.getViewName());
         } catch (ServletException | IOException e) {
             e.printStackTrace();
             assertTrue("Controller thrown an Exception",false);
