@@ -32,7 +32,7 @@ public class CommonDAO {
 
     public Set<String> getAllUserNames() {
         assert jdbcTemplate != null;
-        List<String> result = jdbcTemplate.query("SELECT * FROM user", (Object[]) null, new RowMapper<String>() {
+        List<String> result = jdbcTemplate.query("SELECT * FROM user ", (Object[])null, new RowMapper<String>() {
             @Override
             public String mapRow(ResultSet rs, int i) throws SQLException {
                 return rs.getString("username");

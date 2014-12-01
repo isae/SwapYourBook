@@ -21,7 +21,7 @@ public class ShitController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView printHello(HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView mv = new ModelAndView("/hello.jsp");
+        ModelAndView mv = new ModelAndView("hello.jsp");
         logger.warn("Returning hello view");
         mv.addObject("message", "Hello Spring MVC Framework!");
         return mv;

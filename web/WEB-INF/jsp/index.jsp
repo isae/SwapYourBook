@@ -9,18 +9,17 @@
 
 <html>
 <head>
-    <link href="<s:url value="/frameworks/bootstrap/css/bootstrap.min.css" />" rel="stylesheet"/>
+    <link href="<s:url value="/res/frameworks/bootstrap/css/bootstrap.min.css" />" rel="stylesheet" type="text/css"/>
+    <script src="<s:url value="/res/js/jquery-1.11.1.js" />" type="text/javascript"></script>
+    <script src="<s:url value="/res/frameworks/bootstrap/js/bootstrap.min.js" />" type="text/javascript"></script>
     <title>Hello</title>
 </head>
 <body bgcolor="white">
-<img src="<s:url value="/images/duke.gif"/>"/>
+<img src="<s:url value="/images/duke.gif" />"/>
 
 <h1>Hello, SERVER IS RUNNING</h1>
-<script src="<s:url value="/js/jquery-1.11.1.js" />"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="<s:url value="/frameworks/bootstrap/js/bootstrap.min.js" />"></script>
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-    Click! If you`re a fag, then fочшancy modal window must appear!
+    Click! If you`re a fag, then fancy modal window must appear!
 </button>
 
 <!-- Modal -->
@@ -28,7 +27,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
                 <h4 class="modal-title" id="myModalLabel">Modal title</h4>
             </div>
             <div class="modal-body">

@@ -54,6 +54,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="activation" level="project" />
+    <orderEntry type="library" name="javax.servlet.jsp.jstl-1.2.1" level="project" />
   </component>
 </module>
 
