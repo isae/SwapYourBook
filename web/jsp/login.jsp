@@ -1,7 +1,4 @@
-<%--
- Copyright 2004-2005 Sun Microsystems, Inc.  All rights reserved.
- Use is subject to license terms.
---%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -9,23 +6,28 @@
 
 <html>
 <head>
-    <link href="<s:url value="/res/frameworks/bootstrap/css/bootstrap.min.css" />" rel="stylesheet" type="text/css"/>
-    <script src="<s:url value="/res/js/jquery-1.11.1.js" />" type="text/javascript"></script>
-    <script src="<s:url value="/res/frameworks/bootstrap/js/bootstrap.min.js" />" type="text/javascript"></script>
-    <title>Hello</title>
+    <link href="<s:url value="/frameworks/bootstrap/css/bootstrap.min.css" />" rel="stylesheet"/>
+    <title>${pageName}</title>
 </head>
-<body bgcolor="white">
-<img src="<s:url value="/images/duke.gif" />"/>
-
-<h1>Hello, SERVER IS RUNNING</h1>
+<body>
 <script src="<s:url value="/js/jquery-1.11.1.js" />"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="<s:url value="/frameworks/bootstrap/js/bootstrap.min.js" />"></script>
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-    Click! If you`re a fag, then fancy modal window must appear!
-</button>
+<div class="container">
+    <div>
+        <h1>Hello! Welcome to SwapYourBook1!</h1>
+        <h4>Please login using this form or
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+                Register!
+            </button>
+        </h4>
+    </div>
+    <div class="input-group">
+        <p><input type="text" name="username" placeholder="Your username"></p>
+        <p><input type="password" name="password" placeholder="Your password"></p>
+        <button type="button" class="btn btn-primary btn-sm">Submit</button>
+    </div>
+</div>
 
-<!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
