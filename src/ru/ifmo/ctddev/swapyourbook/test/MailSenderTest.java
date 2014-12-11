@@ -14,7 +14,6 @@ import javax.mail.internet.AddressException;
 public class MailSenderTest extends TestCase {
 
     public void testMailSending() {
-//todo do not push that to our repo
         /*try {
             Mailer.send("ilyha.hackmorda", "olo547OLO", "kim@rain.ifmo.ru", "This is test message", "Hello, little fucker!");
         } catch (MessagingException e) {

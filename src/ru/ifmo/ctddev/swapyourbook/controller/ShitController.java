@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import ru.ifmo.ctddev.swapyourbook.helpers.MyLoggable;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,9 +16,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 @RequestMapping("/shit")
-public class ShitController {
+public class ShitController implements MyLoggable{
 
-    protected final Log logger = LogFactory.getLog(getClass());
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView printHello(HttpServletRequest request, HttpServletResponse response) {

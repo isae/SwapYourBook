@@ -1,11 +1,15 @@
 package ru.ifmo.ctddev.swapyourbook.dao;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
+import ru.ifmo.ctddev.swapyourbook.helpers.MyLoggable;
 
+import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -17,17 +21,31 @@ import java.util.Set;
  */
 
 @Repository
-public class CommonDAO {
+public class CommonDAO implements MyLoggable{
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate = null;
+    private JdbcTemplate jdbcTemplate;
+
+
+    public void setDataSource(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
 
     public CommonDAO(boolean ignored) {
-        jdbcTemplate = new JdbcTemplate(new DriverManagerDataSource("jdbc:mysql://localhost:3306/book_db", "root", "admin"));
+        String connectionString = "jdbc:mysql://178.62.246.183:3306/book_db?user=root" +
+                "&password=admin" +
+                "&useUnicode=true" +
+                "&characterEncoding=UTF-8" +
+                "&autoReconnect=true" +
+                "&failOverReadOnly=false" +
+                "&maxReconnects=3";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+        }
+        jdbcTemplate = new JdbcTemplate(new DriverManagerDataSource(connectionString));
     }
 
     public CommonDAO() {
-
     }
 
     public Set<String> getAllUserNames() {
@@ -47,5 +65,11 @@ public class CommonDAO {
 
     public JdbcTemplate getJdbcTemplate() {
         return jdbcTemplate;
+    }
+
+    public boolean isUsernameAvailable(String username) {
+        Integer result = jdbcTemplate.queryForObject("SELECT 1 FROM user WHERE username = ?", new Object[]{username},Integer.class);
+        logger.debug("username: "+username+ ", result is: "+result);
+        return result != null;
     }
 }

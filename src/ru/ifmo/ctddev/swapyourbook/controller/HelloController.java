@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import ru.ifmo.ctddev.swapyourbook.helpers.MyLoggable;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,8 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Controller
-public class HelloController {
-    protected final Log logger = LogFactory.getLog(getClass());
+public class HelloController implements MyLoggable{
 
     @RequestMapping(value ="/hello.htm", method = RequestMethod.GET)
     public ModelAndView handleRequest(

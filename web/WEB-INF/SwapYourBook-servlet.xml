@@ -19,8 +19,9 @@
     <mvc:resources mapping="/res/**" location="/res/"/>
     <context:component-scan base-package="ru.ifmo.ctddev.swapyourbook.controller.**"/>
     <context:component-scan base-package="ru.ifmo.ctddev.swapyourbook.dao.**"/>
+    <context:component-scan base-package="ru.ifmo.ctddev.swapyourbook.test.**"/>
 
-    <bean id="dataSource"
+    <!--<bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://178.62.246.183:3306/book_db"/>
@@ -34,7 +35,7 @@
 
     <bean id="commonDAO" class="ru.ifmo.ctddev.swapyourbook.dao.CommonDAO">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
-    </bean>
+    </bean>-->
 
 
     <bean id="viewResolver"
