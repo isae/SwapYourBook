@@ -31,7 +31,7 @@ public class CommonDAO implements MyLoggable{
     }
 
     public CommonDAO(boolean ignored) {
-        String connectionString = "jdbc:mysql://178.62.246.183:3306/book_db?user=root" +
+        String connectionString = "jdbc:mysql://localhost:3306/book_db?user=root" +
                 "&password=admin" +
                 "&useUnicode=true" +
                 "&characterEncoding=UTF-8" +
