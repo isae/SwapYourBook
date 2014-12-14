@@ -1,8 +1,5 @@
 package ru.ifmo.ctddev.swapyourbook.dao;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -31,8 +28,8 @@ public class CommonDAO implements MyLoggable{
     }
 
     public CommonDAO(boolean ignored) {
-        String connectionString = "jdbc:mysql://178.62.246.183:3306/book_db?user=root" +
-                "&password=admin" +
+        String connectionString = "jdbc:mysql://localhost:3306/book_db?user=root" +
+                "&password=sasha24" +
                 "&useUnicode=true" +
                 "&characterEncoding=UTF-8" +
                 "&autoReconnect=true" +
