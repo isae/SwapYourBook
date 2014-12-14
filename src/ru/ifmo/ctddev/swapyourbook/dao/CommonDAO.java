@@ -68,8 +68,8 @@ public class CommonDAO implements MyLoggable{
     }
 
     public boolean isUsernameAvailable(String username) {
-        Integer result = jdbcTemplate.queryForObject("SELECT 1 FROM user WHERE username = ?", new Object[]{username},Integer.class);
+        Integer result = jdbcTemplate.queryForObject("SELECT count(*) FROM user WHERE username = ?", new Object[]{username},Integer.class);
         logger.debug("username: "+username+ ", result is: "+result);
-        return result != null;
+        return result == 0;
     }
 }

@@ -15,6 +15,7 @@
           <element id="library" level="module" name="JUnit4" module-name="SwapYourBook" />
           <element id="library" level="project" name="activation" />
           <element id="library" level="project" name="javax.servlet.jsp.jstl-1.2.1" />
+          <element id="library" level="project" name="com.google.apis:google-api-services-books:v1-rev63-1.19.0" />
         </element>
       </element>
     </root>

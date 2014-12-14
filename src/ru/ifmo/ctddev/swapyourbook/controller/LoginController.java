@@ -36,6 +36,8 @@ public class LoginController implements MyLoggable{
     public @ResponseBody String checkUsernameAvailable(@RequestParam("username") String username,
                                          HttpServletRequest request,
                                          HttpServletResponse response) {
-        return String.valueOf(commonDAO.isUsernameAvailable(username));
+        boolean result = commonDAO.isUsernameAvailable(username);
+        logger.warn("checkUsernameAvailable result is: "+result);
+        return String.valueOf(result);
     }
 }

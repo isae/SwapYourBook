@@ -21,6 +21,7 @@
             var usernameAvailable;
             $.ajax({
                 type: 'POST',
+                async: false,
                 url: "login/checkUsernameAvailable",
                 data: {
                     username: $("#reg_username").val()
@@ -29,9 +30,8 @@
                     usernameAvailable = msg;
                 }
             });
-            if(!usernameAvailable){
-                $("#reg_username").notify(
-                        { position:"right" },"User with this username already exists");
+            if(usernameAvailable!=true){
+                $("#reg_username").notify("User with this username already exists",{position:"right"},"error");
                 return;
             }
             var pass_match = $("#reg_passwd").val() === $("#reg_confirm").val();
