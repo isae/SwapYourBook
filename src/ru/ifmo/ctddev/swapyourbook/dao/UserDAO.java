@@ -20,12 +20,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by root on 11/24/14.
- */
-
 @Repository
-public class UserDAO implements MyLoggable{
+public class UserDAO implements MyLoggable {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
