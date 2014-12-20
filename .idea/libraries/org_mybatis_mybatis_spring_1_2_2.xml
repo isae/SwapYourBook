@@ -3,16 +3,8 @@
     <properties maven-id="org.mybatis:mybatis-spring:1.2.2" />
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/mybatis-spring-1.2.2.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/mybatis-3.2.3.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/spring-jdbc-3.1.4.RELEASE.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/spring-beans-3.1.4.RELEASE.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/spring-core-3.1.4.RELEASE.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/spring-asm-3.1.4.RELEASE.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/spring-tx-3.1.4.RELEASE.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/aopalliance-1.0.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/spring-aop-3.1.4.RELEASE.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/spring-context-3.1.4.RELEASE.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/spring-expression-3.1.4.RELEASE.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/spring-batch-infrastructure-2.2.2.RELEASE.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/spring-retry-1.0.2.RELEASE.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/tools.jar!/" />
