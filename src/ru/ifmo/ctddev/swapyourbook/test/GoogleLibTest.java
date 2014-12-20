@@ -39,7 +39,7 @@ import java.text.NumberFormat;
  * Please start by reviewing the Google Books API documentation at:
  * http://code.google.com/apis/books/docs/getting_started.html
  */
-public class GoogleLibTest extends TestCase{
+public class GoogleLibTest {
 
     /**
      * Be sure to specify the name of your application. If the application name is {@code null} or

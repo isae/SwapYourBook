@@ -9,10 +9,10 @@ import ru.ifmo.ctddev.swapyourbook.helpers.UserRoleID;
 import ru.ifmo.ctddev.swapyourbook.mybatis.dao.CustomUserMapper;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.AuthTokenMapper;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserMapper;
+import ru.ifmo.ctddev.swapyourbook.helpers.MyLoggable;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.AuthToken;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.AuthTokenExample;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.User;
-import ru.ifmo.ctddev.swapyourbook.helpers.MyLoggable;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -43,7 +43,7 @@ public class UserDAO implements MyLoggable{
 
     public UserDAO(boolean ignored) {
         String connectionString = "jdbc:mysql://localhost:3306/book_db?user=root" +
-                "&password=sasha24" +
+                "&password=admin" +
                 "&useUnicode=true" +
                 "&characterEncoding=UTF-8" +
                 "&autoReconnect=true" +
