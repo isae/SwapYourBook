@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <classPathEntry location="/root/.m2/repository/mysql/mysql-connector-java/5.1.34/mysql-connector-java-5.1.34.jar"/>
+
+    <context id="BookDbTables" targetRuntime="MyBatis3">
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/book_db"
+                        userId="root"
+                        password="admin">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="ru.ifmo.ctddev.swapyourbook.mybatis.gen.model"
+                            targetProject="../../../../../../">
+            <property name="enableSubPackages" value="false"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="ru.ifmo.ctddev.swapyourbook.gen.mybatis.gen.mapper"
+                         targetProject="../../../../../../../">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="ANNOTATEDMAPPER" targetPackage="ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao"
+                             targetProject="./../../../../../../">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+
+        <table tableName="user">
+            <property name="constructorBased" value="true"/>
+        </table>
+        <table tableName="auth_token">
+        </table>
+
+    </context>
+</generatorConfiguration>

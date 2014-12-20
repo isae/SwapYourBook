@@ -17,33 +17,72 @@
             alert(result);
             return result;
         }
-        function tryToSendData(){
+        function checkEmail(email) {
+            var filter = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
+            return filter.test(email);
+        }
+        function tryToSendData() {
+            var reg_username = $("#reg_username").val();
+            var reg_email = $("#reg_email").val();
+            var reg_passwd = $("#reg_passwd").val();
+            var reg_confirm = $("#reg_confirm").val();
+
             var usernameAvailable;
-            $.ajax({
-                type: 'POST',
-                async: false,
-                url: "login/checkUsernameAvailable",
-                data: {
-                    username: $("#reg_username").val()
-                },
-                success: function(msg){
-                    usernameAvailable = msg;
+            var success = true;
+            if (!(reg_username && reg_email && reg_passwd && reg_confirm)) {
+                $.notify("Please, fill all the fields", "error");
+                return false;
+            }
+            if (reg_username.length >= 6) {
+                $.ajax({
+                    type: 'POST',
+                    async: false,
+                    url: "login/checkUsernameAvailable",
+                    data: {
+                        username: reg_username
+                    },
+                    success: function (msg) {
+                        usernameAvailable = JSON.parse(msg.toLowerCase());
+                    }
+                });
+                if (usernameAvailable != true) {
+                    $("#reg_username").notify("User with this username already exists", {position: "right"}, "error");
+                    success = false;
                 }
-            });
-            if(usernameAvailable!=true){
-                $("#reg_username").notify("User with this username already exists",{position:"right"},"error");
-                return;
+            } else {
+                success = false;
+                $("#reg_username").notify("Username must be at least 6 characters", {position: "right"}, "error");
             }
-            var pass_match = $("#reg_passwd").val() === $("#reg_confirm").val();
-            if(!pass_match){
-                $("#reg_confirm").notify("Passwords does not match!", "error");
+            if(!checkEmail(reg_email)){
+                success = false;
+                $("#reg_email").notify("Invalid email", {position: "right"}, "error");
             }
+            if (reg_passwd != reg_confirm) {
+                success = false;
+                $("#reg_confirm").notify("Passwords does not match!", {position: "right"}, "error");
+            }
+            if (success) {
+                $.ajax({
+                    type: 'POST',
+                    async: false,
+                    url: "login/sendAuthToken",
+                    data: {
+                        email: reg_email,
+                        username: reg_username,
+                        password: reg_passwd
+                    },
+                    success: function (msg) {
+                        $.notify("Registration completed! Please, check your e-mail folder for confirmation letter", "info");
+                    }
+                });
+            }
+            return success;
         }
     </script>
     <title>${pageName}</title>
 </head>
 <body>
-<div id ="unique" class="container">
+<div id="unique" class="container">
     <div>
         <h1>Hello! Welcome to SwapYourBook!</h1>
         <h4>Please login using this form or
@@ -60,7 +99,8 @@
     </div>
 </div>
 
-<div class="modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -72,8 +112,11 @@
                 <div class="input-group">
                     <div class="container">
                         <p><input type="text" id="reg_username" name="username" placeholder="Your username"></p>
+
                         <p><input type="email" id="reg_email" name="username" placeholder="Your email"></p>
+
                         <p><input type="password" id="reg_passwd" name="password" placeholder="Your password"></p>
+
                         <p><input type="password" id="reg_confirm" name="confirm_password"
                                   placeholder="Please, confirm password"></p>
                     </div>

@@ -14,6 +14,7 @@ import java.util.Properties;
 
 /**
  * Created by root on 11/26/14.
+ * copy-pasted from stackoverflow :)
  */
 public class Mailer {
     private Mailer() {

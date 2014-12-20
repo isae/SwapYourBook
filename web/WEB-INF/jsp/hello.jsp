@@ -7,5 +7,6 @@
 <body>
 <h1>Hello - Spring Application</h1>
 <p>Greetings.</p>
+<p>${message}</p>
 </body>
 </html>
