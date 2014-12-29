@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class Shop implements Serializable {
 
-    String name;
-    String staffName[];
+    private String name;
+    private String staffName[];
 
     public String getName() {
         return name;

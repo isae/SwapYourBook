@@ -2,6 +2,7 @@ package ru.ifmo.ctddev.swapyourbook.controller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,10 +49,10 @@ public class MainController {
     }
 
     // TODO (POST -> GET)
-    @RequestMapping(value = "autocomplete", method = RequestMethod.GET)
+    @RequestMapping(value = "autocomplete", produces = "text/html",method = RequestMethod.GET)
     public
     @ResponseBody
-    Shop autocompleteRequestedString(@RequestParam String requestedString,
+    String autocompleteRequestedString(@RequestParam String requestedString,
                                          HttpServletRequest request,
                                          HttpServletResponse response) {
 
@@ -61,7 +62,12 @@ public class MainController {
         Shop shop = new Shop();
         shop.setName("MrChicken");
         shop.setStaffName(new String[]{"mkyong1", "mkyong2"});
-
-        return shop;
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(shop);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

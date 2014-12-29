@@ -62,7 +62,7 @@ public class GoogleLibTest {
         // Set query string and filter only Google eBooks.
         System.out.println("Query: [" + query + "]");
         List volumesList = books.volumes().list(query);
-        volumesList.setFilter("ebooks");
+        volumesList.setFilter("ebooks").setLangRestrict("ru");
 
         // Execute the query.
         Volumes volumes = volumesList.execute();
@@ -97,7 +97,7 @@ public class GoogleLibTest {
             }
             // Ratings (if any).
             if (volumeInfo.getRatingsCount() != null && volumeInfo.getRatingsCount() > 0) {
-                int fullRating = (int) Math.round(volumeInfo.getAverageRating().doubleValue());
+                int fullRating = (int) Math.round(volumeInfo.getAverageRating());
                 System.out.print("User Rating: ");
                 for (int i = 0; i < fullRating; ++i) {
                     System.out.print("*");
