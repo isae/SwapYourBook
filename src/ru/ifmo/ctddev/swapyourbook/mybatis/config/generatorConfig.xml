@@ -38,6 +38,12 @@
         </table>
         <table tableName="auth_token">
         </table>
+        <table tableName="book">
+            <property name="constructorBased" value="true"/>
+        </table>
+        <table tableName="user_book">
+            <property name="constructorBased" value="true"/>
+        </table>
 
     </context>
 </generatorConfiguration>
