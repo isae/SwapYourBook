@@ -28,8 +28,6 @@ public class GoogleBooksController implements MyLoggable{
             HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mv = new ModelAndView("books_search.jsp");
         List<ExtendedBook> books = new ArrayList<>();
-        books.add(new ExtendedBook(null,"Преступление и наказание", "Достоевский", "комментарий раз",false, null));
-        books.add(new ExtendedBook(null,"ПОЧЕМУ Я МУДАК", "Ильюшка", "комментарий два",false, null));
         books.addAll(GoogleBooksSearcher.queryGoogleBooks(author,null,null));
         logger.warn("Returning books view");
         mv.addObject("books", books);

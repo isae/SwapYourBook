@@ -10,8 +10,13 @@
     <script src="<s:url value="/res/frameworks/bootstrap/js/bootstrap.min.js" />" type="text/javascript"></script>
     <link href="<s:url value="/res/frameworks/select2/select2.css" />" rel="stylesheet"/>
     <script src="<s:url value="/res/frameworks/select2/select2.min.js" />"></script>
+    <link href="<s:url value="/res/frameworks/smoothzoom/szoom.css" />" rel="stylesheet"/>
+    <script type="text/javascript" src="<s:url value="/res/frameworks/smoothzoom/szoom.js" />"></script>
     <title>Hello :: Spring Application</title></head>
 <script>
+    $(window).load( function() {
+        $('img').smoothZoom();
+    });
     $(document).ready(function () {
         $("#e1").select2();
     });
@@ -22,20 +27,13 @@
     <tr>
         <th>Название</th>
         <th>Автор</th>
-        <%--<th>Комментарий</th>--%>
         <th>Картинка</th>
-        <th>url</th>
-        <th>url2</th>
     </tr>
     <c:forEach var="book" items="${books}">
         <tr>
             <td>${book.title}</td>
             <td>${book.author}</td>
-           <%-- <td>${book.comment}</td>--%>
-           <%-- <td><img src="${book.imageLinks}"/></td>--%>
-            <td>${book.smallLink}</td>
-            <td>${book.mediumLink}</td>
-            <td>${book.largeLink}</td>
+            <td><p><img rel="zoom" class="zoomable" src="${book.imageLink}" /></p></td>
         </tr>
     </c:forEach>
 
