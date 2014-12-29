@@ -18,6 +18,7 @@
     <mvc:annotation-driven/>
     <mvc:resources mapping="/res/**" location="/res/"/>
 
+    <context:component-scan base-package="ru.ifmo.ctddev.swapyourbook.controller" />
 
     <context:component-scan base-package="ru.ifmo.ctddev.swapyourbook.dao.**"/>
     <context:component-scan base-package="ru.ifmo.ctddev.swapyourbook.test.**"/>
