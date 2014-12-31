@@ -65,7 +65,7 @@ public class LoginController implements MyLoggable {
         User user = userDAO.processAuthToken(token);
         ModelAndView mv = new ModelAndView("hello.jsp");
         logger.warn("Returning hello view");
-        mv.addObject("message", user.getUserid() + " " + user.getUsername() + " " + user.getRoleid());
+        mv.addObject("message", user.getUserid() + " " + user.getUsername() + " " + user.getRole());
         return mv;
     }
 }

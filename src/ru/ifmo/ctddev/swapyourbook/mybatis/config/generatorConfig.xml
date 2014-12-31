@@ -8,7 +8,7 @@
 
     <context id="BookDbTables" targetRuntime="MyBatis3">
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/book_db"
+                        connectionURL="jdbc:mysql://178.62.246.183:3306/book_db"
                         userId="root"
                         password="admin">
         </jdbcConnection>
@@ -44,6 +44,10 @@
         <table tableName="user_book">
             <property name="constructorBased" value="true"/>
         </table>
+        <table tableName="file">
+            <property name="constructorBased" value="true"/>
+        </table>
+
 
     </context>
 </generatorConfiguration>

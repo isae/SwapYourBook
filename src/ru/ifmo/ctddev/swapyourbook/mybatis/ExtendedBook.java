@@ -8,8 +8,8 @@ import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.Book;
 public class ExtendedBook extends Book {
     private String imageLink;
 
-    public ExtendedBook(Integer bookid, String title, String author, String comment, Boolean fromGoogle, byte[] image) {
-        super(bookid, title, author, comment, fromGoogle, image);
+    public ExtendedBook(Integer bookid, String title, String author, String comment, Boolean fromGoogle) {
+        super(bookid, title, author, comment, fromGoogle, null);
     }
 
     public ExtendedBook() {

@@ -5,17 +5,18 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
-import ru.ifmo.ctddev.swapyourbook.helpers.UserRoleID;
+import ru.ifmo.ctddev.swapyourbook.helpers.UserRole;
 import ru.ifmo.ctddev.swapyourbook.mybatis.dao.CustomUserMapper;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.AuthTokenMapper;
+import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.FileMapper;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserMapper;
 import ru.ifmo.ctddev.swapyourbook.helpers.MyLoggable;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.AuthToken;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.AuthTokenExample;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.User;
+import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.*;
+import ru.ifmo.ctddev.swapyourbook.pojo.UserBookWrapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +32,8 @@ public class UserDAO implements MyLoggable {
     private CustomUserMapper customUserMapper;
     @Autowired
     private AuthTokenMapper authTokenMapper;
+    @Autowired
+    private FileMapper fileMapper;
 
 
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
@@ -86,9 +89,13 @@ public class UserDAO implements MyLoggable {
         List<AuthToken> tokens = authTokenMapper.selectByExample(example);
         assert tokens.size() == 1;
         AuthToken tok = tokens.get(0);
-        User user = new User(null, tok.getUsername(), UserRoleID.USER.roleID, tok.getEmail(), tok.getPassword());
+        User user = new User(null, tok.getUsername(), UserRole.USER.role, tok.getEmail(), tok.getPassword());
         customUserMapper.insertWithoutID(user);
         return user;
+    }
+
+    public User getUser(int userID){
+        return userMapper.selectByPrimaryKey(userID);
     }
 
     public UserMapper getUserMapper() {
@@ -97,5 +104,34 @@ public class UserDAO implements MyLoggable {
 
     public void setUserMapper(UserMapper userMapper) {
         this.userMapper = userMapper;
+    }
+
+    public List<UserBookWrapper> getBooksByUserID(int userID) {
+        boolean f = true;
+        return jdbcTemplate.query(
+                "select * from user_book join book using(bookID) where userID = ?",
+                new Object[]{userID},
+                new RowMapper<UserBookWrapper>() {
+            @Override
+            public UserBookWrapper mapRow(ResultSet rs, int i) throws SQLException {
+                UserBookWrapper wrapper = new UserBookWrapper();
+                Book book = new Book();
+                book.setTitle(rs.getString("title"));
+                book.setAuthor(rs.getString("author"));
+                book.setThumbnailid(rs.getInt("thumbnailID"));
+                book.setBookid(rs.getInt("bookID"));
+                UserBook userBook = new UserBook();
+                userBook.setBookid(rs.getInt("bookID"));
+                userBook.setUserbookid(rs.getInt("userBookID"));
+                wrapper.setBook(book);
+                wrapper.setUserBook(userBook);
+                return wrapper;
+            }
+        });
+    }
+
+    public byte[] getImageByID(int imageID) {
+        File file = fileMapper.selectByPrimaryKey(imageID);
+        return file.getBytes();
     }
 }

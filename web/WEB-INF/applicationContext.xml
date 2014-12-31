@@ -8,7 +8,7 @@
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://178.62.246.183:3306/book_db"/>
+        <property name="url" value="jdbc:mysql://178.62.246.183:3306/book_db?useUnicode=true&amp;characterEncoding=UTF-8"/>
         <!--<property name="url" value="jdbc:mysql://localhost:3306/book_db"/>-->
         <property name="username" value="root"/>
         <property name="password" value="admin"/>
@@ -26,6 +26,10 @@
         <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserMapper" />
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
+    <bean id="fileMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.FileMapper" />
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
 
     <bean id="customUserMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.dao.CustomUserMapper" />
@@ -37,6 +41,9 @@
     </bean>
 
     <bean id="userDAO" class="ru.ifmo.ctddev.swapyourbook.dao.UserDAO">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+    <bean id="bookDAO" class="ru.ifmo.ctddev.swapyourbook.dao.BookDAO">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 

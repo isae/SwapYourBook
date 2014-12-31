@@ -3,12 +3,12 @@ package ru.ifmo.ctddev.swapyourbook.helpers;
 /**
  * Created by root on 12/20/14.
  */
-public enum UserRoleID {
+public enum UserRole {
     ADMIN(1),
     USER(2);
-    public int roleID;
+    public int role;
 
-    UserRoleID(int roleID) {
-        this.roleID = roleID;
+    UserRole(int role) {
+        this.role = role;
     }
 }
