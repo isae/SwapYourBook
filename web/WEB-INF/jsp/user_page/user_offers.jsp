@@ -4,8 +4,14 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <script src="<s:url value="/res/js/jquery-form.js" />" type="text/javascript"></script>
 <script type="text/javascript">
-    $(document).ready( function() {
+    function prepareForWork(){
         $('.zoomable').smoothZoom();
+        $(".clickableBook").click(function(e){
+            alert("Book ID is"+$(this).find(".bookID").text());
+        });
+    }
+    $(document).ready( function() {
+        prepareForWork();
     });
     $("#submitBookAddFormButton").click(function (e) {
         e.preventDefault();
@@ -15,8 +21,8 @@
             dataType: "text"
         }).submit();
         $("#myOffersLink").trigger('click');
-        $('.zoomable').smoothZoom();
-    })
+        prepareForWork();
+    });
 </script>
 
 <h1>Отдам</h1>
@@ -31,7 +37,8 @@
     </thead>
     <tbody>
     <c:forEach var="book" items="${userBooks}">
-        <tr>
+        <tr class="clickableBook">
+            <td class="hidden bookID">${book.book.bookid}</td>
             <td>${book.book.title}</td>
             <td>${book.book.author}</td>
             <td>____</td>
