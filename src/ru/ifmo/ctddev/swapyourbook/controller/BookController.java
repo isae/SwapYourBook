@@ -44,6 +44,16 @@ public class BookController implements MyLoggable {
         return mav;
     }
 
+    @RequestMapping(value="/addBookWishForm",method = RequestMethod.POST)
+    public  ModelAndView  getBookWishAdd(
+            HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        ModelAndView mav = new ModelAndView("book_add.jsp");
+        User user = userDAO.getUser(1);
+        mav.addObject("user",user);
+        return mav;
+    }
+
     @RequestMapping(value = "/image", method=RequestMethod.GET)
     public @ResponseBody
     byte[] getImage(@RequestParam("imageID") int imageID) throws IOException {
