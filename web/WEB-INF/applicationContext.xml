@@ -47,5 +47,9 @@
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
+    <bean id="searchDAO" class="ru.ifmo.ctddev.swapyourbook.dao.SearchDAO">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
 
 </beans>

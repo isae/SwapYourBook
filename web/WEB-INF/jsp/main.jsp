@@ -15,35 +15,50 @@
 
         <script>
             function search() {
-                var requestedString = $("#query").val();
+                var requestedString = $("#search").val();
+                var isByAuthors = $("#by_a").attr('checked');
+                var isWithImages = $("#with_i").attr('checked');
+
 
                 $.ajax({
                     type: 'POST',
                     async: false,
-                    url: "main/searchRequestedString",
+                    url: "main/search",
                     data: {
-                        reqString: requestedString
+                        requestedString: requestedString,
+                        isByAuthors: isByAuthors,
+                        isWithImages: isWithImages
                     },
-                    success: function (msg) {
-                        alert("LOGGING | requested string: " + msg + " submitted");
+
+                    success: function(response) {
+
+                        return {
+                            //must convert json to javascript object before process
+                            suggestions: $.map($.parseJSON(response), function(item) {
+                                alert("DETKA: " + item);
+                                // return { value: item.tagName, data: item.id };
+                            })
+
+                        };
+
                     }
                 });
             }
 
-            $(function() {
-                $('#query').autocomplete({
+            $(document).ready(function() {
+
+                $('#search').autocomplete({
                     serviceUrl: 'main/autocomplete',
                     paramName: "requestedString",
                     delimiter: ",",
+                    max_length: 10,
                     transformResult: function(response) {
 
                         return {
-                            // alert("LOGGING | got response!");
                             //must convert json to javascript object before process
-                            // suggestions: $.map($.parseJSON(response), function(item) {
-                            //     alert("LOGGING | got response!");
-                            //     return { value: item.toString() };
-                            ///})
+                            suggestions: $.map($.parseJSON(response), function(item) {
+                                return { value: item.tagName, data: item.id };
+                            })
 
                         };
 
@@ -51,45 +66,6 @@
 
                 });
 
-                var availableTags = [
-                    "ActionScript",
-                    "AppleScript",
-                    "Asp",
-                    "BASIC",
-                    "C",
-                    "C++",
-                    "Clojure",
-                    "COBOL",
-                    "ColdFusion",
-                    "Erlang",
-                    "Fortran",
-                    "Groovy",
-                    "Haskell",
-                    "Java",
-                    "JavaScript",
-                    "Lisp",
-                    "Perl",
-                    "PHP",
-                    "Python",
-                    "Ruby",
-                    "Scala",
-                    "Scheme"
-                ];
-                $('#querying').autocomplete({
-                    // source: "main/autocomplete",
-                    // source: 'main/autocomplete', // Страница для обработки запросов автозаполнения
-                    //minChars: 2, // Минимальная длина запроса для срабатывания автозаполнения
-                    // delimiter: /(,|;)\s*/, // Разделитель для нескольких запросов, символ или регулярное выражение
-                    // maxHeight: 400, // Максимальная высота списка подсказок, в пикселях
-                    // width: 300, // Ширина списка
-                    // zIndex: 9999, // z-index списка
-                    // deferRequestBy: 200, // Задержка запроса (мсек), на случай, если мы не хотим слать миллион запросов, пока пользователь печатает. Я обычно ставлю 300.
-                    // params: { request: $("#query").val() }, // Дополнительные параметры
-
-                    // It seems to work properly without special callback function
-                    // onSelect: function(data, value){ }, // Callback функция, срабатывающая на выбор одного из предложенных вариантов,
-                    //lookup: ['WarAndPiece', 'Onegin', 'LetMyPeopleGo'] // Список вариантов для локального автозаполнения
-                });
             });
 
         </script>
@@ -116,13 +92,13 @@
 
 
 
-            <div class="wrapper_search-block__search" id="search">
+            <div class="wrapper_search-block__search" id="search_div">
 
                 <form class="search-form__form" action="#" method="get">
 
                     <div class="search-form__row search-form__row_1">
 
-                        <input type="text" name="q" placeholder="Search" id="query"/>
+                        <input type="text" name="q" placeholder="Search" id="search"/>
                         <button type="submit" onclick="search()" >GO</button>
 
                     </div>
@@ -132,12 +108,12 @@
                     <div class="search-form__row search-form__row_2   " id="pre-filters">
 
                         <label for="include_authors">
-                            <input type="checkbox" name="include_author" id="a" class="form-input-checkbox">
-                            искать по авторам тоже
+                            <input type="checkbox" name="by_authors" id="by_a" class="form-input-checkbox">
+                            искать по авторам
                         </label>
 
                         <label for="with_images">
-                            <input type="checkbox" name="with_images" id="i" class="form-input-checkbox">
+                            <input type="checkbox" name="with_images" id="with_i" class="form-input-checkbox">
                             только с фото
                         </label>
 
