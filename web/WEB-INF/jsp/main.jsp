@@ -1,6 +1,6 @@
 
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <html>
 <head>
     <%--<link href="<s:url value="/css/style.css"/>" rel="stylesheet" />--%>
@@ -78,8 +78,8 @@
             <a href="/"><img src="<s:url value="/res/images/deyneka.jpg"/>" alt="Deyneka was here" height="100" width="200" id="logo-image"></a>
 
             <nav>
-                <a href="/SwapYourBook/login/">login</a> |
-                <a href="/SwapYourBook/index/">Create new account</a>
+                <a href="./login">login</a> |
+                <a href="./index">Create new account</a>
             </nav>
 
         </div>

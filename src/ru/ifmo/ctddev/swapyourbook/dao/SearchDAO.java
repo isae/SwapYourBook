@@ -31,22 +31,6 @@ public class SearchDAO {
     @Autowired
     private AuthTokenMapper authTokenMapper;
 
-    public SearchDAO() {
-        String connectionString = "jdbc:mysql://178.62.246.183:3306/book_db?user=root" +
-                "&password=admin" +
-                "&useUnicode=true" +
-                "&characterEncoding=UTF-8" +
-                "&autoReconnect=true" +
-                "&failOverReadOnly=false" +
-                "&maxReconnects=3";
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-        }
-
-        jdbcTemplate = new JdbcTemplate(new DriverManagerDataSource(connectionString));
-    }
-
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
