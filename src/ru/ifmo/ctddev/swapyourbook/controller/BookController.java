@@ -14,7 +14,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Created by root on 12/30/14.
@@ -34,21 +33,31 @@ public class BookController implements MyLoggable {
         return new ModelAndView("user.jsp");
     }
 
-    @RequestMapping(value="/addBook",method = RequestMethod.POST)
-    public  ModelAndView  getUserBooks(
+    @RequestMapping(value= "/addBookForm",method = RequestMethod.POST)
+    public  ModelAndView  getBookAddForm(
             HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ModelAndView mav = new ModelAndView("book_add.jsp");
+        ModelAndView mav = new ModelAndView("book/book_add.jsp");
+        User user = userDAO.getUser(1);
+        mav.addObject("user",user);
+        return mav;
+    }
+
+    @RequestMapping(value= "/editBookForm",method = RequestMethod.POST)
+    public  ModelAndView  getBookEditForm(
+            HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        ModelAndView mav = new ModelAndView("book/book_edit.jsp");
         User user = userDAO.getUser(1);
         mav.addObject("user",user);
         return mav;
     }
 
     @RequestMapping(value="/addBookWishForm",method = RequestMethod.POST)
-    public  ModelAndView  getBookWishAdd(
+    public  ModelAndView  getBookWishAddForm(
             HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ModelAndView mav = new ModelAndView("book_add.jsp");
+        ModelAndView mav = new ModelAndView("book/book_wish_add.jsp");
         User user = userDAO.getUser(1);
         mav.addObject("user",user);
         return mav;

@@ -45,9 +45,6 @@
             <img style="width: 100%; padding-bottom: 5px;margin-bottom: 10px;"
                  src="<s:url value="/res/images/deyneka.jpg"/>" class="img-thumbnail">
             <ul class="nav nav-pills nav-stacked" role="tablist" id="myMenu">
-                <%--<li role="presentation" class="active">
-                    <a id="myBooksLink" data-target="#books" href="./user/myBooks">Мои книги</a>
-                </li>--%>
                 <li role="presentation">
                     <a id="myOffersLink" data-target="#offers" href="./user/myOffers">
                         <span>Отдам</span>
@@ -62,17 +59,10 @@
                           aria-hidden="true"></span>
                     </a>
                 </li>
-                <%--
-                <li role="presentation">
-                    <a data-target="#saved" href="./user/mySaved">Сохранённые</a>
-                </li>--%>
                 <li role="presentation">
                     <a data-target="#settings" href="./user/mySettings">Настройки</a>
                 </li>
             </ul>
-            <%-- <button style="margin-top: 15px" data-target="#bookAddPane" href="./book/addBook" id="bookAdd" type="button"
-                     class="btn btn-primary btn-lg active">Добавить книгу
-             </button>--%>
         </div>
         <div class="col-md-10">
             <div class="tab-content">
@@ -83,7 +73,6 @@
                 <div role="tabpanel" class="tab-pane fade" id="settings"></div>
                 <div role="tabpanel" class="tab-pane fade" id="bookAddPane"></div>
             </div>
-            <!--Body content-->
         </div>
     </div>
 </div>

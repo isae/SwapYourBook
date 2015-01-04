@@ -7,6 +7,7 @@
     function prepareForWork(){
         $('.zoomable').smoothZoom();
         $(".clickableBook").click(function(e){
+            $(this).closest("#offers").html("<h1>HELLO</h1>");
             alert("Book ID is"+$(this).find(".bookID").text());
         });
     }
@@ -54,5 +55,5 @@
         class="btn btn-primary btn-lg active">Добавить книгу
 </button>
 <div class="collapse container-fluid" id="bookAddPane">
-    <jsp:include page="/book/addBook"/>
+    <jsp:include page="/book/addBookForm"/>
 </div>
