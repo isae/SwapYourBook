@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.2.xsd
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <global-method-security secured-annotations="enabled" />
+
+    <http auto-config="true" use-expressions="true">
+        <intercept-url pattern="/login/**" access="permitAll" />
+        <intercept-url pattern="/res/frameworks/bootstrap/css/bootstrap.min.css" access="permitAll" />
+        <intercept-url pattern="/res/js/jquery-1.11.1.js" access="permitAll" />
+        <intercept-url pattern="/res/frameworks/bootstrap/js/bootstrap.min.js" access="permitAll" />
+        <intercept-url pattern="/res/frameworks/notifyjs/notify.min.js" access="permitAll" />
+        <intercept-url pattern="/**" access="hasAnyRole(1,2)" />
+        <form-login username-parameter="username"
+                    default-target-url="/user"
+                    always-use-default-target="true"
+                    password-parameter="password" login-processing-url="/login_user" authentication-failure-url="/login/logout" login-page="/login"/>
+
+        <logout invalidate-session="true"
+
+                logout-url="/logout_user" />
+        <access-denied-handler error-page="/login/logout"/>
+    </http>
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider>
+            <jdbc-user-service data-source-ref="dataSource"
+                               authorities-by-username-query="SELECT username,role FROM user WHERE username=?;"
+                               users-by-username-query="SELECT username, password, 'true' FROM user WHERE username=?;"/>
+        </authentication-provider>
+    </authentication-manager>
+</beans:beans>

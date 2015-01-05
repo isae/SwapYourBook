@@ -2,8 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:security="http://www.springframework.org/schema/security"
        xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
+    <import resource="securityContext.xml"/>
+
 
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -26,6 +32,17 @@
         <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserMapper" />
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
+
+    <bean id="bookMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.BookMapper" />
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+
+    <bean id="userBookMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserBookMapper" />
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+
     <bean id="fileMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.FileMapper" />
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
@@ -51,5 +68,6 @@
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
-
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+    <bean id="securityContextRepository" class="org.springframework.security.web.context.HttpSessionSecurityContextRepository" />
 </beans>
