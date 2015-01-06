@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import ru.ifmo.ctddev.swapyourbook.dao.SearchDAO;
 import ru.ifmo.ctddev.swapyourbook.helpers.*;
+import ru.ifmo.ctddev.swapyourbook.mybatis.ExtendedBook;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -43,6 +44,9 @@ public class MainController implements MyLoggable{
         ObjectMapper mapper = new ObjectMapper();
         try {
             List<String> suggestions = searchDAO.getAutocompleteList(requestedString);
+            for (int i = 0; i < suggestions.size(); ++i) {
+                System.out.println("##" + i + " " + suggestions.get(i));
+            }
             // todo mb remove tags -> only strings
             List<Tag> tags = new ArrayList<>(suggestions.size());
             for (int i = 0; i < suggestions.size(); ++i) {
@@ -51,7 +55,7 @@ public class MainController implements MyLoggable{
 
             return mapper.writeValueAsString(tags);
         } catch (IOException e) {
-            logger.error("IO error:",e);
+            logger.error("IO error:", e);
         }
 
         return null;
@@ -59,27 +63,19 @@ public class MainController implements MyLoggable{
 
     @RequestMapping(value = "search", method = RequestMethod.POST)
     public
-    @ResponseBody
-    String search(@RequestParam("requestedString") String requestedString,
+    ModelAndView search(@RequestParam("requestedString") String requestedString,
                           @RequestParam("isByAuthor") boolean isByAuthor,
-                          @RequestParam("isWithImages") boolean isWithImages,
                           HttpServletRequest request,
                           HttpServletResponse response) {
 
         logger.warn(requestedString);
-        List<SearchItem> list = searchDAO.getSearchList(requestedString, isByAuthor, isWithImages);
-        // todo int result = (new SearchDAO()).getNumberOfIntersectingStrings(requestedString);
-        // todo писать new SearchDAO не нужно :)
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.writeValueAsString(mapper);
-        } catch (JsonMappingException e) {
-            e.getMessage();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        return null;
+        List<SearchItem> bookItems = searchDAO.getSearchList(requestedString, isByAuthor);
+        ModelAndView mv = new ModelAndView("search_elements/main_search.jsp");
+
+        logger.warn("Returning search books view");
+        mv.addObject("bookItems", bookItems);
+        return mv;
     }
 
 }

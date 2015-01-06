@@ -7,8 +7,10 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.ifmo.ctddev.swapyourbook.helpers.GoogleBooksSearcher;
 import ru.ifmo.ctddev.swapyourbook.helpers.SearchItem;
 import ru.ifmo.ctddev.swapyourbook.helpers.SuggestionItem;
+import ru.ifmo.ctddev.swapyourbook.mybatis.ExtendedBook;
 import ru.ifmo.ctddev.swapyourbook.mybatis.dao.CustomUserMapper;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.AuthTokenMapper;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.FileMapper;
@@ -24,12 +26,6 @@ import java.util.List;
 public class SearchDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private CustomUserMapper customUserMapper;
-    @Autowired
-    private AuthTokenMapper authTokenMapper;
 
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -52,25 +48,19 @@ public class SearchDAO {
     }
 
     public List<String> getAutocompleteList(String requestedString) {
-        assert jdbcTemplate != null;
+        List<ExtendedBook> books = new ArrayList<>();
+        books.addAll(GoogleBooksSearcher.queryGoogleBooksCommon(null, requestedString));
 
-        String request = "%" + requestedString + "%";
-        List<String> matchedBooksAndAuthors = jdbcTemplate.query("SELECT * FROM book WHERE title LIKE ? OR author LIKE ?",
-                                                       new Object[]{request, request},
-                                                       new RowMapper<String>() {
-            @Override
-            public String mapRow(ResultSet rs, int i) throws SQLException {
-                return rs.getString("title");
-            }
-        });
+        List<String> matchedBooksAndAuthors = new ArrayList<>(books.size());
+        for (int i = 0; i < books.size(); ++i) {
+            matchedBooksAndAuthors.add(books.get(i).getTitle());
+        }
 
         return matchedBooksAndAuthors;
     }
 
     public List<SearchItem> getSearchList(String requestedString,
-                                          boolean isByAuthor,
-                                          boolean isWithImages) {
-        // todo use isWithImages
+                                          boolean isByAuthor) {
         assert jdbcTemplate != null;
 
         String request = "%" + requestedString + "%";
@@ -88,16 +78,18 @@ public class SearchDAO {
                     @Override
                     public SearchItem mapRow(ResultSet rs, int i) throws SQLException {
                         SearchItem item = new SearchItem();
-                        item.bookID = rs.getInt("bookID");
-                        item.title = rs.getString("title");
-                        item.author = rs.getString("author");
+                        item.setBookID(rs.getInt("bookID"));
+                        item.setTitle(rs.getString("title"));
+                        item.setAuthor(rs.getString("author"));
+                        item.setImgID(rs.getInt("thumbnailID"));
                         return item;
                     }
                 });
 
         for (int i = 0; i < matchedBooks.size(); ++i) {
             SearchItem item = matchedBooks.get(i);
-            List<Integer> ownersIds = jdbcTemplate.query("SELECT * FROM user_book WHERE bookID=item.bookID", (Object[])null, new RowMapper<Integer>() {
+            int requestedId = item.getBookID();
+            List<Integer> ownersIds = jdbcTemplate.query("SELECT * FROM user_book WHERE bookID=?", new Object[]{requestedId}, new RowMapper<Integer>() {
                 @Override
                 public Integer mapRow(ResultSet rs, int i) throws SQLException {
                     return rs.getInt("userID");
@@ -106,7 +98,8 @@ public class SearchDAO {
 
             List<String> owners = new ArrayList<String>(ownersIds.size());
             for (int j = 0; j < ownersIds.size(); ++j) {
-                List<String> ownerName = jdbcTemplate.query("SELECT * FROM user WHERE userID=ownersIds.get(j)", (Object[])null, new RowMapper<String>() {
+                requestedId = ownersIds.get(j);
+                List<String> ownerName = jdbcTemplate.query("SELECT * FROM user WHERE userID=?", new Object[]{requestedId}, new RowMapper<String>() {
                     @Override
                     public String mapRow(ResultSet rs, int i) throws SQLException {
                         return rs.getString("username");
@@ -118,7 +111,7 @@ public class SearchDAO {
                 owners.add(ownerName.get(0));
             }
 
-            matchedBooks.get(i).owners = owners;
+            matchedBooks.get(i).setOwners(owners);
         }
 
         return matchedBooks;

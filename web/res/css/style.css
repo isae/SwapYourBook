@@ -3,21 +3,21 @@ body {
     color: #8f8f8f;
     font: 12px Tahoma, sans-serif;
     background-color: #f8f8f8;
-    border-top: 5px solid #7e7e7e;
+    /*border-top: 5px solid #7e7e7e;*/
     margin: 0;
 }
 
-input[name="search-main"] {
-    width: 80%;
+input[name="q"] {
+    width: 90%;
 }
 
 input[type="text"] {
     background-color: #f3f3f3;
     border: 1px solid #e7e7e7;
-    height: 30px;
-    color: #b2b2b2;
+    height: 32px;
+    color: #7e7e7e;
     padding: 0 10px;
-    vertical-align: top;
+    vertical-align: middle;
 }
 
 button {
@@ -25,7 +25,6 @@ button {
     background-color: #29c5e6;
     border: none;
     height: 32px;
-    font-family: 'Oswald', sans-serif;
 }
 
 p {
@@ -39,16 +38,16 @@ p {
 
 .wrapper__header {
     display: table;
-    width: 100%;
+    width: 50%;
 }
 
 header {
-    padding: 20px 0;
+    padding: 0px 0;
 }
 
 .search form[name="search-form"] {
     protion: fixed;
-    left: 50%;
+    left: 80%;
 }
 
 .wrapper_search-block__search {
@@ -96,13 +95,12 @@ footer {
 #footer {
     max-width: 960px;
     margin: auto;
-    padding: 10px 0;
+    padding: 5px 5px;
     height: 90px;
 }
 
-#footer-logo {
+#footer-content {
     float: right;
-    margin-top: 10px;
     font-size: 10px;
     text-align: right;
 }

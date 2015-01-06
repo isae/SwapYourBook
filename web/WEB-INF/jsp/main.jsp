@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <html>
@@ -12,13 +11,13 @@
         <script src="<s:url value="/res/frameworks/bootstrap/js/bootstrap.min.js" />" type="text/javascript"></script>
 
         <link href="<s:url value="/res/css/style.css" />" rel="stylesheet" type="text/css" />
+        <link href="<s:url value="/res/css/autocomplete-style.css" />" rel="stylesheet" type="text/css" />
+        <link href="<s:url value="/res/css/search-item-style.css" />" rel="stylesheet" type="text/css" />
 
         <script>
-            function search() {
+            function searchForItems() {
                 var requestedString = $("#search").val();
-                var isByAuthors = $("#by_a").attr('checked');
-                var isWithImages = $("#with_i").attr('checked');
-
+                var isByAuthor = $("#by_a").prop('checked');
 
                 $.ajax({
                     type: 'POST',
@@ -26,21 +25,11 @@
                     url: "main/search",
                     data: {
                         requestedString: requestedString,
-                        isByAuthors: isByAuthors,
-                        isWithImages: isWithImages
+                        isByAuthor: isByAuthor
                     },
 
-                    success: function(response) {
-
-                        return {
-                            //must convert json to javascript object before process
-                            suggestions: $.map($.parseJSON(response), function(item) {
-                                alert("DETKA: " + item);
-                                // return { value: item.tagName, data: item.id };
-                            })
-
-                        };
-
+                    success: function(data) {
+                        $("#search-result").html(data);
                     }
                 });
             }
@@ -51,7 +40,7 @@
                     serviceUrl: 'main/autocomplete',
                     paramName: "requestedString",
                     delimiter: ",",
-                    max_length: 10,
+                    // max_length: 30,
                     transformResult: function(response) {
 
                         return {
@@ -73,53 +62,37 @@
     <title>Welcome! Happy book sharing!</title>
 </head>
 <body>
-    <div class="main-wapper" id="wrapper">
-        <div class="wrapper__header" id="header">
-            <a href="/"><img src="<s:url value="/res/images/deyneka.jpg"/>" alt="Deyneka was here" height="100" width="200" id="logo-image"></a>
+    <div class="main-wrapper" id="wrapper">
+        <div class="container " style="background-color: lightblue" id="header">
+            <div class="navbar-header">
+                <a href=".." class="navbar-brand" id="logo" style="color:#ffffff;"><b>SwapYourBook</b></a>
+            </div>
 
             <nav>
-                <a href="./login">login</a> |
-                <a href="./index">Create new account</a>
+                <a href="./login">войти</a> |
+                <a href="./index">регистрация</a>
             </nav>
 
         </div>
 
         <div class="wrapper_search-block" id="search-block">
 
-            <div class="wrapper_search-block__greeting-title" id="greeting-title">
-                <h1>Find some books</h1>
-            </div>
-
-
-
             <div class="wrapper_search-block__search" id="search_div">
-
-                <form class="search-form__form" action="#" method="get">
-
-                    <div class="search-form__row search-form__row_1">
-
-                        <input type="text" name="q" placeholder="Search" id="search"/>
-                        <button type="submit" onclick="search()" >GO</button>
-
-                    </div>
-
-
-
-                    <div class="search-form__row search-form__row_2   " id="pre-filters">
-
+                <div  class="search-form__form">
+                    <div class="search-form search-form__row_1" id="pre-filters">
                         <label for="include_authors">
                             <input type="checkbox" name="by_authors" id="by_a" class="form-input-checkbox">
                             искать по авторам
                         </label>
-
-                        <label for="with_images">
-                            <input type="checkbox" name="with_images" id="with_i" class="form-input-checkbox">
-                            только с фото
-                        </label>
-
                     </div>
 
-                </form>
+                    <div class="search-form search-form__row_2">
+                        <input onKeyDown="if(event.keyCode == 13) searchForItems();" type="text" name="q" placeholder="Ищу книгу..." id="search"/>
+                        <button onclick="searchForItems();">Найти</button>
+                    </div>
+                </div>
+
+                <div class="search_result" id="search-result"> </div>
 
             </div>
         </div>
@@ -127,9 +100,9 @@
     </div>
 
     <footer>
-        <div id="footer">
-            <div id="footer-logo">
-                <a href="/"><img src="<s:url value="/res/images/deyneka.jpg"/>" alt="Deyneka already here" height="50" width="100"></a>
+        <div class="container " id="footer">
+            <div id="footer-content">
+                <a href="/"><img src="<s:url value="/res/images/deyneka.jpg"/>" alt="Deyneka already here" height="50" width=auto></a>
                 <p>Copyright © 2014 Deynekology.</p>
             </div>
         </div>
