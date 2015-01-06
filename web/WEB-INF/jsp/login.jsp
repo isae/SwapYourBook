@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <html>
@@ -53,7 +54,7 @@
                 success = false;
                 $("#reg_username").notify("Username must be at least 6 characters", {position: "right"}, "error");
             }
-            if(!checkEmail(reg_email)){
+            if (!checkEmail(reg_email)) {
                 success = false;
                 $("#reg_email").notify("Invalid email", {position: "right"}, "error");
             }
@@ -78,6 +79,22 @@
             }
             return success;
         }
+        $(document).ready(function () {
+           /* $("#loginButton").click(function (e) {
+                alert("lol");
+                $.ajax({
+                    'type': "POST",
+                    'url': "./login_user",
+                    'data': {
+                        username: $("loginUsername").val(),
+                        password: $("loginPassword").val()
+                    },
+                    success: function (msg) {
+                        alert(msg);
+                    }
+                });
+            });*/
+        });
     </script>
     <title>${pageName}</title>
 </head>
@@ -92,10 +109,11 @@
         </h4>
     </div>
     <div class="input-group">
-        <p><input type="text" name="username" placeholder="Your username"></p>
-
-        <p><input type="password" name="password" placeholder="Your password"></p>
-        <button type="button" class="btn btn-primary btn-sm">Login</button>
+        <form action="./login_user" method="post">
+            <p><input type="text" id="loginUsername" name="username" placeholder="Your username"></p>
+            <p><input type="password" name="password" id="loginPassword" placeholder="Your password"></p>
+            <input type="submit" id="loginButton" class="btn btn-primary btn-sm" value="Login">
+        </form>
     </div>
 </div>
 

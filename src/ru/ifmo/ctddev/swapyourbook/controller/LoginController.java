@@ -1,6 +1,13 @@
 package ru.ifmo.ctddev.swapyourbook.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,11 +33,24 @@ public class LoginController implements MyLoggable {
     @Autowired
     private MailBean mailBean;
 
+    @Autowired
+    @Qualifier("authenticationManager")
+    AuthenticationManager authenticationManager;
+    @Autowired
+    @Qualifier("securityContextRepository")
+    SecurityContextRepository repository;
+
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView printHello(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mv = new ModelAndView("/login.jsp");
         mv.addObject("pageName", "Login page");
         logger.warn("Returning hello view");
+        return mv;
+    }
+
+    @RequestMapping(value = "logout",method = RequestMethod.GET)
+    public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mv = new ModelAndView("/test.jsp");
         return mv;
     }
 

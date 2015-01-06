@@ -3,14 +3,25 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <script src="<s:url value="/res/js/jquery-form.js" />" type="text/javascript"></script>
+<style>
+    .clickableBook {
+        cursor: pointer;
+    }
+</style>
 <script type="text/javascript">
-    function prepareForWork(){
-        $('.zoomable').smoothZoom();
-        $(".clickableBook").click(function(e){
-            alert("Book ID is"+$(this).find(".bookID").text());
+    function prepareForWork() {
+        var zoomable = $('.zoomable');
+        zoomable.smoothZoom();
+        zoomable.click(function (e) {
+            e.stopPropagation();
+        });
+        $(".clickableBook").click(function (e) {
+            var $this = $(this);
+            var bookID = $this.find(".bookID").text();
+            $(location).attr("href", "./book/editBookForm?bookID=" + bookID);
         });
     }
-    $(document).ready( function() {
+    $(document).ready(function () {
         prepareForWork();
     });
     $("#submitBookAddFormButton").click(function (e) {
@@ -50,9 +61,9 @@
 <button id="openBookAddFormButton" style="margin-top: 15px; margin-bottom: 15px;" data-toggle="collapse"
         data-target="#bookAddPane"
         aria-expanded="false" aria-controls="bookAddPane"
-        href="./book/addBook" id="bookAdd" type="button"
+        href="./book/addBookForm" id="bookAdd" type="button"
         class="btn btn-primary btn-lg active">Добавить книгу
 </button>
 <div class="collapse container-fluid" id="bookAddPane">
-    <jsp:include page="/book/addBook"/>
+    <jsp:include page="/book/addBookForm"/>
 </div>
