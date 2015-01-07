@@ -46,7 +46,7 @@
 
                     <div class ="book-info">
                         <div class = "s-image">
-                            <img style="max-height: 100%; max-width: 100%"
+                            <img style="max-height: 200px; max-width: 100%"
                                  src="./book/image?imageID=${item.imgID}">
                         </div>
                         <div class="description">
@@ -59,7 +59,7 @@
                         </div>
                     </div>
 
-                    <hr style="margin-top: 80px; margin-bottom: 20px">
+                    <hr style="margin-top: 150px; margin-bottom: 20px">
 
                     <h4 class="text">
                         Пользователи, у которых есть эта книга:
