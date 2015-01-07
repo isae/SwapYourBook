@@ -32,14 +32,22 @@
     <title>User Page</title>
 </head>
 <body>
-<header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
-    <div class="container " style="background-color: lightblue">
-        <div class="navbar-header">
-            <a href=".." class="navbar-brand" style="color:#ffffff;"><b>SwapYourBook</b></a>
-        </div>
-    </div>
-</header>
 <div class="container">
+    <header class="navbar navbar-static-top" id="top" role="banner">
+        <div class="container " style="background-color: lightblue; position: absolute;">
+            <div class="navbar-header">
+                <a href="./main" class="navbar-brand" style="color:#ffffff;"><b>SwapYourBook</b></a>
+            </div>
+            <div style="position:absolute; right: 1%; top:20%;">
+                <div style="display: inline-block; font-size: 18px"><span class="label label-default">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    ${user.username}</span></div>
+                <form style="display: inline-block" action="./logout_user" method="post">
+                    <input type="submit" class="btn btn-sm btn-default" value="Выйти"/>
+                </form>
+            </div>
+        </div>
+    </header>
     <div class="row">
         <div class="col-md-2">
             <img style="width: 100%; padding-bottom: 5px;margin-bottom: 10px;"

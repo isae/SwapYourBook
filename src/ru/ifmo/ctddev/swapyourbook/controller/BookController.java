@@ -26,7 +26,7 @@ import java.io.IOException;
  */
 @Controller
 @RequestMapping(value = "/book")
-public class BookController implements MyLoggable {
+public class BookController extends MyController implements MyLoggable {
     @Autowired
     private UserDAO userDAO;
     @Autowired
@@ -46,7 +46,7 @@ public class BookController implements MyLoggable {
             HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ModelAndView mav = new ModelAndView("book/book_add.jsp");
-        mav.addObject("user",userDAO.getUser(1));
+        mav.addObject("user",getCurrentUser());
         return mav;
     }
 
@@ -79,7 +79,7 @@ public class BookController implements MyLoggable {
             HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ModelAndView mav = new ModelAndView("book/book_wish_add.jsp");
-        User user = userDAO.getUser(1);
+        User user = userDAO.getUser(getCurrentUser().getUserid());
         mav.addObject("user",user);
         return mav;
     }

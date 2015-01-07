@@ -10,21 +10,23 @@
     <global-method-security secured-annotations="enabled" />
 
     <http auto-config="true" use-expressions="true">
-        <intercept-url pattern="/login/**" access="permitAll" />
+        <intercept-url pattern="/main/**" access="permitAll" />
         <intercept-url pattern="/res/frameworks/bootstrap/css/bootstrap.min.css" access="permitAll" />
+        <intercept-url pattern="/res/css/autocomplete-style.css" access="permitAll" />
+        <intercept-url pattern="/res/css/search-item-style.css" access="permitAll" />
+        <intercept-url pattern="/res/css/style.css" access="permitAll" />
         <intercept-url pattern="/res/js/jquery-1.11.1.js" access="permitAll" />
+        <intercept-url pattern="/res/js/jquery.autocomplete.js" access="permitAll" />
+        <intercept-url pattern="/res/js/registration.js" access="permitAll" />
         <intercept-url pattern="/res/frameworks/bootstrap/js/bootstrap.min.js" access="permitAll" />
         <intercept-url pattern="/res/frameworks/notifyjs/notify.min.js" access="permitAll" />
         <intercept-url pattern="/**" access="hasAnyRole(1,2)" />
         <form-login username-parameter="username"
                     default-target-url="/user"
                     always-use-default-target="true"
-                    password-parameter="password" login-processing-url="/login_user" authentication-failure-url="/login/logout" login-page="/login"/>
-
-        <logout invalidate-session="true"
-
-                logout-url="/logout_user" />
-        <access-denied-handler error-page="/login/logout"/>
+                    password-parameter="password" login-processing-url="/login_user" authentication-failure-url="/main" login-page="/main"/>
+        <logout logout-url="/logout_user" logout-success-url="/main"/>
+        <access-denied-handler error-page="/main"/>
     </http>
     <authentication-manager alias="authenticationManager">
         <authentication-provider>

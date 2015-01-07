@@ -61,7 +61,7 @@ public class UserDAO implements MyLoggable {
 
     public Set<String> getAllUserNames() {
         assert jdbcTemplate != null;
-        List<String> result = jdbcTemplate.query("SELECT * FROM user ", (Object[])null, new RowMapper<String>() {
+        List<String> result = jdbcTemplate.query("SELECT * FROM user ", (Object[]) null, new RowMapper<String>() {
             @Override
             public String mapRow(ResultSet rs, int i) throws SQLException {
                 return rs.getString("username");
@@ -75,16 +75,16 @@ public class UserDAO implements MyLoggable {
     }
 
     public boolean isUsernameAvailable(String username) {
-        Integer result = jdbcTemplate.queryForObject("SELECT count(*) FROM user WHERE username = ?", new Object[]{username},Integer.class);
-        logger.debug("username: "+username+ ", result is: "+result);
+        Integer result = jdbcTemplate.queryForObject("SELECT count(*) FROM user WHERE username = ?", new Object[]{username}, Integer.class);
+        logger.debug("username: " + username + ", result is: " + result);
         return result == 0;
     }
 
-    public void addAuthToken(String token,String email,String username,String password) {
-        jdbcTemplate.update("INSERT INTO auth_token(token,username,password,email) VALUES(?,?,?,?)",token,username,password,email);
+    public void addAuthToken(String token, String email, String username, String password) {
+        jdbcTemplate.update("INSERT INTO auth_token(token,username,password,email) VALUES(?,?,?,?)", token, username, password, email);
     }
 
-    public User processAuthToken(String token) {
+    public synchronized User processAuthToken(String token) {
         AuthTokenExample example = new AuthTokenExample();
         example.createCriteria().andTokenEqualTo(token);
         List<AuthToken> tokens = authTokenMapper.selectByExample(example);
@@ -95,7 +95,7 @@ public class UserDAO implements MyLoggable {
         return user;
     }
 
-    public User getUser(int userID){
+    public User getUser(int userID) {
         return userMapper.selectByPrimaryKey(userID);
     }
 
@@ -110,29 +110,40 @@ public class UserDAO implements MyLoggable {
     public List<UserBookWrapper> getBooksByUserID(int userID) {
         boolean f = true;
         return jdbcTemplate.query(
-                "select * from user_book join book using(bookID) where userID = ?",
+                "SELECT * FROM user_book JOIN book USING(bookID) WHERE userID = ?",
                 new Object[]{userID},
                 new RowMapper<UserBookWrapper>() {
-            @Override
-            public UserBookWrapper mapRow(ResultSet rs, int i) throws SQLException {
-                UserBookWrapper wrapper = new UserBookWrapper();
-                Book book = new Book();
-                book.setTitle(rs.getString("title"));
-                book.setAuthor(rs.getString("author"));
-                book.setThumbnailid(rs.getInt("thumbnailID"));
-                book.setBookid(rs.getInt("bookID"));
-                UserBook userBook = new UserBook();
-                userBook.setBookid(rs.getInt("bookID"));
-                userBook.setUserbookid(rs.getInt("userBookID"));
-                wrapper.setBook(book);
-                wrapper.setUserBook(userBook);
-                return wrapper;
-            }
-        });
+                    @Override
+                    public UserBookWrapper mapRow(ResultSet rs, int i) throws SQLException {
+                        UserBookWrapper wrapper = new UserBookWrapper();
+                        Book book = new Book();
+                        book.setTitle(rs.getString("title"));
+                        book.setAuthor(rs.getString("author"));
+                        book.setThumbnailid(rs.getInt("thumbnailID"));
+                        book.setBookid(rs.getInt("bookID"));
+                        UserBook userBook = new UserBook();
+                        userBook.setBookid(rs.getInt("bookID"));
+                        userBook.setUserbookid(rs.getInt("userBookID"));
+                        wrapper.setBook(book);
+                        wrapper.setUserBook(userBook);
+                        return wrapper;
+                    }
+                });
     }
 
     public byte[] getImageByID(int imageID) {
         File file = fileMapper.selectByPrimaryKey(imageID);
         return file.getBytes();
+    }
+
+    public User getUser(String username) {
+        UserExample example = new UserExample();
+        example.createCriteria().andUsernameEqualTo(username);
+        List<User> users = userMapper.selectByExample(example);
+        if (users.size() != 1) {
+            return null;
+        } else {
+            return users.get(0);
+        }
     }
 }

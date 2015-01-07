@@ -25,13 +25,14 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/main")
-public class MainController implements MyLoggable{
+public class MainController extends MyController{
     @Autowired
     SearchDAO searchDAO;
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView printHello(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mv = new ModelAndView("/main.jsp");
+        mv.addObject("user", getCurrentUser());
         logger.warn("Returning main view");
         return mv;
     }
