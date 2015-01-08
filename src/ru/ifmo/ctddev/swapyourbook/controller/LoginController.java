@@ -3,7 +3,6 @@ package ru.ifmo.ctddev.swapyourbook.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 import ru.ifmo.ctddev.swapyourbook.bean.MailBean;
 import ru.ifmo.ctddev.swapyourbook.dao.UserDAO;
 import ru.ifmo.ctddev.swapyourbook.helpers.MyLoggable;
@@ -39,7 +37,7 @@ public class LoginController implements MyLoggable {
     AuthenticationManager authenticationManager;
     @Autowired
     @Qualifier("securityContextRepository")
-    SecurityContextRepository repository;
+    SecurityContextRepository securityContextRepository;
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView printHello(HttpServletRequest request, HttpServletResponse response) {
@@ -71,7 +69,7 @@ public class LoginController implements MyLoggable {
     @ResponseBody
     String sendAuthToken(@RequestParam("email") String email,
                          @RequestParam("username") String username,
-                         @RequestParam("username") String password,
+                         @RequestParam("password") String password,
                          HttpServletRequest request,
                          HttpServletResponse response) {
         boolean result = mailBean.sendAuthToken(email, username, password);
@@ -80,12 +78,13 @@ public class LoginController implements MyLoggable {
     }
 
     @RequestMapping(value = "handleAuthToken", method = RequestMethod.GET)
-    public RedirectView handleAuthToken(@RequestParam("authToken") String token,
+    public String handleAuthToken(@RequestParam("authToken") String token,
                                       HttpServletRequest request,
                                       HttpServletResponse response) {
-        RedirectView redirectView = new RedirectView();
         User user = userDAO.processAuthToken(token);
-        redirectView.setUrl("../login_user?username="+user.getUsername()+"&password="+user.getPassword());
-        return redirectView;
+        Authentication a= authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(a);
+        securityContextRepository.saveContext(SecurityContextHolder.getContext(), request, response);
+        return "redirect:/user";
     }
 }
