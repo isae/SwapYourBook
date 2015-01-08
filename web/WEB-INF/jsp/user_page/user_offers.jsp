@@ -17,8 +17,8 @@
         });
         $(".clickableBook").click(function (e) {
             var $this = $(this);
-            var bookID = $this.find(".bookID").text();
-            $(location).attr("href", "./book/editBookForm?bookID=" + bookID);
+            var bookID = $this.find(".userBookID").text();
+            $(location).attr("href", "./book/editBookForm?userBookID=" + bookID);
         });
     }
     $(document).ready(function () {
@@ -50,6 +50,7 @@
     <c:forEach var="book" items="${userBooks}">
         <tr class="clickableBook">
             <td class="hidden bookID">${book.book.bookid}</td>
+            <td class="hidden userBookID">${book.userBook.userbookid}</td>
             <td>${book.book.title}</td>
             <td>${book.book.author}</td>
             <td>____</td>

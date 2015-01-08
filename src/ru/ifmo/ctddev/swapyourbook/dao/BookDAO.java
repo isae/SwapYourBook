@@ -5,6 +5,7 @@ import com.mysql.jdbc.Statement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -21,12 +22,14 @@ import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.Book;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.BookExample;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.UserBook;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.UserBookExample;
+import ru.ifmo.ctddev.swapyourbook.pojo.UserBookWrapper;
 
 import javax.mail.Multipart;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -167,5 +170,42 @@ public class BookDAO {
             }
         }
         return true;
+    }
+
+    public void deleteBook(int bookID) {
+        BookExample ex = new BookExample();
+        ex.createCriteria().andBookidEqualTo(bookID);
+        bookMapper.deleteByExample(ex);
+    }
+
+
+    public UserBookWrapper getBookWithUser(int userBookID) {
+        boolean f = true;
+        List<UserBookWrapper> wrappers = jdbcTemplate.query(
+                "SELECT * FROM user_book JOIN book USING(bookID) WHERE userBookID = ?",
+                new Object[]{userBookID},
+                new RowMapper<UserBookWrapper>() {
+                    @Override
+                    public UserBookWrapper mapRow(ResultSet rs, int i) throws SQLException {
+                        UserBookWrapper wrapper = new UserBookWrapper();
+                        Book book = new Book();
+                        book.setTitle(rs.getString("title"));
+                        book.setAuthor(rs.getString("author"));
+                        book.setThumbnailid(rs.getInt("thumbnailID"));
+                        book.setBookid(rs.getInt("bookID"));
+                        UserBook userBook = new UserBook();
+                        userBook.setBookid(rs.getInt("bookID"));
+                        userBook.setUserbookid(rs.getInt("userBookID"));
+                        wrapper.setBook(book);
+                        wrapper.setUserBook(userBook);
+                        return wrapper;
+                    }
+                });
+        if (wrappers.size() == 1) return wrappers.get(0);
+        return null;
+    }
+
+    public void deleteUserBook(int userBookID) {
+        userBookMapper.deleteByPrimaryKey(userBookID);
     }
 }

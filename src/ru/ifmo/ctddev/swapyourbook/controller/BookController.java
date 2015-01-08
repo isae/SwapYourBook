@@ -1,6 +1,7 @@
 package ru.ifmo.ctddev.swapyourbook.controller;
 
 //import org.apache.commons.io.IOUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import ru.ifmo.ctddev.swapyourbook.helpers.MyLoggable;
 import ru.ifmo.ctddev.swapyourbook.mybatis.ExtendedBook;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.Book;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.User;
+import ru.ifmo.ctddev.swapyourbook.pojo.UserBookWrapper;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -41,51 +43,62 @@ public class BookController extends MyController implements MyLoggable {
         return new ModelAndView("user.jsp");
     }
 
-    @RequestMapping(value= "/addBookForm",method = RequestMethod.POST)
-    public  ModelAndView  getBookAddForm(
+    @RequestMapping(value = "/addBookForm", method = RequestMethod.POST)
+    public ModelAndView getBookAddForm(
             HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ModelAndView mav = new ModelAndView("book/book_add.jsp");
-        mav.addObject("user",getCurrentUser());
+        mav.addObject("user", getCurrentUser());
         return mav;
     }
 
-    @RequestMapping(value= "/editBookForm",method = RequestMethod.GET)
-    public  ModelAndView  getBookEditForm(@RequestParam("bookID") int bookID,
-            HttpServletRequest request, HttpServletResponse response)
+    @RequestMapping(value = "/editBookForm", method = RequestMethod.GET)
+    public ModelAndView getBookEditForm(@RequestParam("userBookID") int userBookID,
+                                        HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ModelAndView mav = new ModelAndView("book/book_edit.jsp");
-        Book book = bookDAO.getBook(bookID);
-        mav.addObject("book",book);
+        UserBookWrapper book = bookDAO.getBookWithUser(userBookID);
+        mav.addObject("book", book);
         return mav;
     }
 
-    @RequestMapping(value= "/editBook",headers = "content-type=multipart/*",method = RequestMethod.POST)
-    public @ResponseBody String editBook(@RequestParam("bookTitle") String title,
-                         @RequestParam("authorName") String author,
-                         @RequestParam("bookID") Integer bookID,
-                         @RequestParam("bookDescription") String description,
-                         @RequestParam(value="bookThumbnail", required = false) MultipartFile thumbnail,
-                         MultipartHttpServletRequest request, HttpServletResponse response)
+    @RequestMapping(value = "/deleteBook", method = RequestMethod.GET)
+    public String deleteBook(@RequestParam("userBookID") int userBookID,
+                             HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int userID=1;
-        byte[] image = thumbnail!=null?thumbnail.getBytes():null;
-        bookDAO.tryToEditBook(userID,bookID,title,author,description,image);
+        bookDAO.deleteUserBook(userBookID);
+        return "redirect:/user";
+    }
+
+    @RequestMapping(value = "/editBook", headers = "content-type=multipart/*", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    String editBook(@RequestParam("bookTitle") String title,
+                    @RequestParam("authorName") String author,
+                    @RequestParam("bookID") Integer bookID,
+                    @RequestParam("bookDescription") String description,
+                    @RequestParam(value = "bookThumbnail", required = false) MultipartFile thumbnail,
+                    MultipartHttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int userID = 1;
+        byte[] image = thumbnail != null ? thumbnail.getBytes() : null;
+        bookDAO.tryToEditBook(userID, bookID, title, author, description, image);
         return "OK";
     }
 
-    @RequestMapping(value="/addBookWishForm",method = RequestMethod.POST)
-    public  ModelAndView  getBookWishAddForm(
+    @RequestMapping(value = "/addBookWishForm", method = RequestMethod.POST)
+    public ModelAndView getBookWishAddForm(
             HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ModelAndView mav = new ModelAndView("book/book_wish_add.jsp");
         User user = userDAO.getUser(getCurrentUser().getUserid());
-        mav.addObject("user",user);
+        mav.addObject("user", user);
         return mav;
     }
 
-    @RequestMapping(value = "/image", method=RequestMethod.GET)
-    public @ResponseBody
+    @RequestMapping(value = "/image", method = RequestMethod.GET)
+    public
+    @ResponseBody
     byte[] getImage(@RequestParam("imageID") int imageID) throws IOException {
         return userDAO.getImageByID(imageID);
     }
