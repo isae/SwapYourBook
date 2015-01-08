@@ -16,6 +16,7 @@ import ru.ifmo.ctddev.swapyourbook.pojo.UserBookWrapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -81,7 +82,7 @@ public class UserDAO implements MyLoggable {
     }
 
     public void addAuthToken(String token, String email, String username, String password) {
-        jdbcTemplate.update("INSERT INTO auth_token(token,username,password,email) VALUES(?,?,?,?)", token, username, password, email);
+        jdbcTemplate.update("INSERT INTO auth_token(token,username,password,email,created_timestamp) VALUES(?,?,?,?,?)", token, username, password, email,new Timestamp(System.currentTimeMillis()));
     }
 
     public synchronized User processAuthToken(String token) {
@@ -92,6 +93,7 @@ public class UserDAO implements MyLoggable {
         AuthToken tok = tokens.get(0);
         User user = new User(null, tok.getUsername(), UserRole.USER.role, tok.getEmail(), tok.getPassword());
         customUserMapper.insertWithoutID(user);
+        authTokenMapper.deleteByExample(example);
         return user;
     }
 

@@ -57,7 +57,9 @@
                 }
 
             });
-
+            $("#registrationSubmitButton").click(function (e) {
+                tryToSendData();
+            });
         });
     </script>
 
@@ -81,12 +83,12 @@
                         </button>
                     </c:when>
                     <c:otherwise>
-                            <div style="display: inline-block; font-size: 18px"><span class="label label-default">
+                        <div style="display: inline-block; font-size: 18px"><span class="label label-default">
                             <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                    ${user.username}</span></div>
-                            <form style="display: inline-block" action="./logout_user" method="post">
-                                <input type="submit" class="btn btn-sm btn-default" value="Выйти"/>
-                            </form>
+                                ${user.username}</span></div>
+                        <form style="display: inline-block" action="./logout_user" method="post">
+                            <input type="submit" class="btn btn-sm btn-default" value="Выйти"/>
+                        </form>
                     </c:otherwise>
                 </c:choose>
             </div>
@@ -99,7 +101,8 @@
                 <div class="search-form__form">
                     <div class="search-form search-form__row_1" id="pre-filters">
                         <label for="include_authors">
-                            <input type="checkbox" name="by_authors" id="by_a" class="form-input-checkbox">
+                            <input type="checkbox" id="include_authors" name="by_authors" id="by_a"
+                                   class="form-input-checkbox">
                             искать по авторам
                         </label>
                     </div>
@@ -151,7 +154,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="tryToSendData()">Отправить</button>
+                <button type="button" class="btn btn-primary" id="registrationSubmitButton">Отправить</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
             </div>
         </div>

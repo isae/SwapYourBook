@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 import ru.ifmo.ctddev.swapyourbook.bean.MailBean;
 import ru.ifmo.ctddev.swapyourbook.dao.UserDAO;
 import ru.ifmo.ctddev.swapyourbook.helpers.MyLoggable;
@@ -79,13 +80,12 @@ public class LoginController implements MyLoggable {
     }
 
     @RequestMapping(value = "handleAuthToken", method = RequestMethod.GET)
-    public ModelAndView sendAuthToken(@RequestParam("authToken") String token,
+    public RedirectView handleAuthToken(@RequestParam("authToken") String token,
                                       HttpServletRequest request,
                                       HttpServletResponse response) {
+        RedirectView redirectView = new RedirectView();
         User user = userDAO.processAuthToken(token);
-        ModelAndView mv = new ModelAndView("hello.jsp");
-        logger.warn("Returning hello view");
-        mv.addObject("message", user.getUserid() + " " + user.getUsername() + " " + user.getRole());
-        return mv;
+        redirectView.setUrl("../login_user?username="+user.getUsername()+"&password="+user.getPassword());
+        return redirectView;
     }
 }

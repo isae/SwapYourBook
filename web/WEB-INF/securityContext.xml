@@ -11,6 +11,9 @@
 
     <http auto-config="true" use-expressions="true">
         <intercept-url pattern="/main/**" access="permitAll" />
+        <intercept-url pattern="/login/checkUsernameAvailable" access="permitAll" />
+        <intercept-url pattern="/login/sendAuthToken" access="permitAll" />
+        <intercept-url pattern="/login/handleAuthToken" access="permitAll" />
         <intercept-url pattern="/res/frameworks/bootstrap/css/bootstrap.min.css" access="permitAll" />
         <intercept-url pattern="/res/css/autocomplete-style.css" access="permitAll" />
         <intercept-url pattern="/res/css/search-item-style.css" access="permitAll" />

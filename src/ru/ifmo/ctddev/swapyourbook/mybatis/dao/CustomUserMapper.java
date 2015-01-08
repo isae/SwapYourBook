@@ -10,9 +10,9 @@ import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.User;
 public interface CustomUserMapper {
     @Insert({
             "insert into user (username, ",
-            "roleID, email, password)",
+            "role, email, password)",
             "values (#{username,jdbcType=VARCHAR}, ",
-            "#{roleid,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})"
+            "#{role,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})"
     })
     @Options(useGeneratedKeys = true, keyProperty = "userid")
     public int insertWithoutID(User user);
