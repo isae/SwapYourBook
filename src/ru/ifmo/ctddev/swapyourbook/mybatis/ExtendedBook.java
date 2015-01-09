@@ -23,7 +23,7 @@ public class ExtendedBook extends UserOffer {
     }
 
     public ExtendedBook(UserOffer book) {
-        super(book.getBookid(), book.getTitle(), book.getAuthor(), book.getComment(), book.getFromGoogle(), book.getThumbnailid(), book.getTrusted(), book.getOwher());
+        super(book.getBookid(), book.getTitle(), book.getAuthor(), book.getComment(), book.getFromGoogle(), book.getThumbnailid(), book.getTrusted(), book.getOwner());
     }
 
     public ExtendedBook() {

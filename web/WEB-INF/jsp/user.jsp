@@ -75,7 +75,7 @@
         <div class="col-md-10">
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade" id="offers"></div>
-                <div role="tabpanel" class="tab-pane fade" id="saved"></div>
+                <div role="tabpanel" class="tab-pane fade" id="wishes"></div>
                 <div role="tabpanel" class="tab-pane fade" id="settings"></div>
                 <div role="tabpanel" class="tab-pane fade" id="bookAddPane"></div>
             </div>

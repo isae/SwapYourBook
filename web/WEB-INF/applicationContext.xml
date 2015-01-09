@@ -47,7 +47,7 @@
 
 
     <bean id="cityMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.cityMapper"/>
+        <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.CityMapper"/>
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 

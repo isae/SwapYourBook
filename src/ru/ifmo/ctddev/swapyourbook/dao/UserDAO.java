@@ -112,7 +112,7 @@ public class UserDAO implements MyLoggable {
 
     public List<UserOffer> getOffersByUserID(int userID) {
         UserOfferExample example = new UserOfferExample();
-        example.createCriteria().andOwherEqualTo(userID);
+        example.createCriteria().andOwnerEqualTo(userID);
         return userOfferMapper.selectByExample(example);
     }
 
