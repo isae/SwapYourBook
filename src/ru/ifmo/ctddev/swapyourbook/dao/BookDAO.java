@@ -12,6 +12,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 import ru.ifmo.ctddev.swapyourbook.helpers.FileType;
+import ru.ifmo.ctddev.swapyourbook.helpers.UserBookHelper;
 import ru.ifmo.ctddev.swapyourbook.mybatis.ExtendedBook;
 import ru.ifmo.ctddev.swapyourbook.mybatis.dao.CustomUserMapper;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.AuthTokenMapper;
@@ -106,7 +107,7 @@ public class BookDAO {
                 },
                 keyHolder);
         int bookID = keyHolder.getKey().intValue();
-        jdbcTemplate.update("INSERT INTO user_book(userID,bookID) VALUES(?,?)", userID, bookID);
+        jdbcTemplate.update("INSERT INTO user_book(userID,bookID,type) VALUES(?,?,?)", userID, bookID, UserBookHelper.OFFER.type);
         return true;
     }
 
