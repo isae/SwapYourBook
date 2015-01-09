@@ -17,9 +17,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by root on 12/28/14.
- */
 public class GoogleBooksSearcher implements MyLoggable {
     /**
      * Be sure to specify the name of your application. If the application name is {@code null} or
@@ -35,6 +32,9 @@ public class GoogleBooksSearcher implements MyLoggable {
     static final int BOOK_LIST_MAX_SIZE = 10;
 
     public static String mergeAutors(List<String> authors) {
+        if (authors == null) {
+            return "";
+        }
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < authors.size(); i++) {
             sb.append(authors.get(i));
@@ -47,34 +47,35 @@ public class GoogleBooksSearcher implements MyLoggable {
 
 
     public static List<ExtendedBook> queryGoogleBooksCommon(String title, String author) {
-        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-        List<ExtendedBook> books = new ArrayList<>();
-
-        // todo string -> string-in-URI-format
-        /*try {
-            if (title != null) {
-                title = URLEncoder.encode(title, "UTF-8");
-            }
-
-            if (author != null) {
-                author = URLEncoder.encode(author, "UTF-8");
-            }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }*/
-
+        // Let's form query:
         String query = null;
-        if (title != null && author != null) {
-            query = "(intitle:" + title + ")%20OR%20(inauthor:" + author + ")";
+
+        if (title != null) {
+            title = "\"" + title + "\"";
+        }
+        if (author != null) {
+            author = "\"" + author + "\"";
+        }
+
+        System.out.println("#############TITLE:" + title + "      #############AUTHOR:" + author);
+
+        if ((title != null) && (author != null)) {
+            query = "(intitle:" + title + ")OR(inauthor:" + author + ")";
         } else if (title != null) {
             query = "intitle:" + title;
         } else if (author != null) {
             query = "inauthor:" + author;
         }
-
         assert query != null;
 
         logger.warn("Google Books Query is: " + query);
+
+        return queryGoogleBooksByString(query);
+    }
+
+    private static List<ExtendedBook> queryGoogleBooksByString(String query) {
+        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+        List<ExtendedBook> books = new ArrayList<>();
 
         // Set up Books client.
         try {
@@ -95,6 +96,11 @@ public class GoogleBooksSearcher implements MyLoggable {
                 if (volumes != null && volumes.getItems() != null) {
                     for (Volume volume : volumes.getItems()) {
                         ExtendedBook book = new ExtendedBook();
+
+                        if (volume.getVolumeInfo().getAuthors() == null) {
+                            System.out.println("****Special string********************:" + volume.toString());
+                        }
+
                         book.setAuthor(mergeAutors(volume.getVolumeInfo().getAuthors()));
                         book.setTitle(volume.getVolumeInfo().getTitle());
                         book.setImageLink(volume.getVolumeInfo().getImageLinks().getSmallThumbnail());

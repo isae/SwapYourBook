@@ -8,7 +8,6 @@
 
     <link href="<s:url value="/res/frameworks/bootstrap/css/bootstrap.min.css" />" rel="stylesheet" type="text/css"/>
     <script src="<s:url value="/res/js/jquery-1.11.1.js" />" type="text/javascript"></script>
-    <%--<script src="<s:url value="/res/js/jquery-ui.js" />" type="text/javascript"></script>--%>
     <script src="<s:url value="/res/js/jquery.autocomplete.js" />"></script>
     <script src="<s:url value="/res/frameworks/bootstrap/js/bootstrap.min.js" />" type="text/javascript"></script>
 
