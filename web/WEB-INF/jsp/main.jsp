@@ -101,7 +101,7 @@
                 <div class="search-form__form">
                     <div class="search-form search-form__row_1" id="pre-filters">
                         <label for="include_authors">
-                            <input type="checkbox" id="include_authors" name="by_authors" id="by_a"
+                            <input type="checkbox" name="by_authors" id="by_a"
                                    class="form-input-checkbox">
                             искать по авторам
                         </label>
