@@ -60,14 +60,16 @@ public class UserController extends MyController implements MyLoggable {
             HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ModelAndView mav = new ModelAndView("user_page/user_wishes.jsp");
+        mav.addObject("wishes",bookDAO.getWishesByUser(getCurrentUser()));
         return mav;
     }
 
     @RequestMapping(value = "/addBookWish", method = RequestMethod.POST)
-    public @ResponseBody String addUserWish(
+    public @ResponseBody String addUserWish(@RequestParam("authorName") String authorName,
+                                            @RequestParam("bookTitle") String bookTitle,
             HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        bookDAO.addWishToUser(getCurrentUser(),authorName,bookTitle);
         return "success";
     }
 

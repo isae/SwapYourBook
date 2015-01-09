@@ -34,10 +34,11 @@
             var bookID = $this.find(".offerID").text();
             $(location).attr("href", "./book/editBookForm?userOfferID=" + bookID);
         });
-        $("#openBookAddFormButton").click(loadTab);
+        $("#openBookAddFormButton").click(function(e){
+            $("#bookAddPane").collapse('toggle');
+        });
     }
     $(document).ready(function () {
-        alert("offers are ready!");
         prepareForWork();
     });
     $("#submitBookAddFormButton").click(function (e) {

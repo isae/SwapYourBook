@@ -3,24 +3,13 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <script type="text/javascript">
-    function loadTab(e) {
-        e.preventDefault();
-        var $this = $(this),
-                targ = $this.attr('data-target'),
-                loadurl = $this.attr('href');
-
-        $.post(loadurl, function (data) {
-            $(targ).html(data);
+    $(document).ready(function () {
+        $("#addUserWishFormButton").click(function(e){
+            $("#bookWishAddPane").collapse('toggle');
         });
 
-        $this.tab('show');
-    }
-
-    $(document).ready(function () {
-        alert("wishes are ready!");
-        $("#addUserWishFormButton").click(loadTab);
-
         $("#submitBookWishAddFormButton").click(function (e) {
+            e.preventDefault();
             $("#bookWishAddForm").ajaxForm({
                 async: false,
                 success: function (data) {
@@ -42,17 +31,12 @@
     </tr>
     </thead>
     <tbody>
-    <%--<c:forEach var="book" items="${userOffers}">
+    <c:forEach var="book" items="${wishes}">
         <tr class="clickableBook">
-            <td class="hidden bookID">${book.book.bookid}</td>
-            <td>${book.book.title}</td>
-            <td>${book.book.author}</td>
-            <td>____</td>
-                &lt;%&ndash;
-                            <td><img rel="zoom" class="zoomable" src="./book/image?imageID=${book.book.thumbnailid}"/></td>
-                        &ndash;%&gt;
+            <td>${book.title}</td>
+            <td>${book.author}</td>
         </tr>
-    </c:forEach>--%>
+    </c:forEach>
     </tbody>
 </table>
 <button id="addUserWishFormButton" style="margin-top: 15px; margin-bottom: 15px;" data-toggle="collapse"
