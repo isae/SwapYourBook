@@ -26,20 +26,6 @@
         $(document).ready(function () {
             $(document).on("click", "#myMenu a", loadTab);
             $("#myOffersLink").trigger('click');
-            $("#myWishesLink").click(function (e) {
-                $("#addUserWishFormButton").click(loadTab);
-                $("#submitBookWishAddFormButton").click(function(e){
-                    $("#bookWishAddForm").ajaxForm({
-                        async:false,
-                        success: function (data) {
-                            $("#myWishesLink").trigger("click");
-                        },
-                        dataType: "text"
-                    }).submit();
-                })
-            });//trigger('click');
-            $("#bookAdd").click(loadTab);
-            $("#openBookAddFormButton").click(loadTab);
         });
     </script>
     <title>User Page</title>

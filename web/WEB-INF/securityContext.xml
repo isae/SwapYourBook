@@ -11,6 +11,7 @@
 
     <http auto-config="true" use-expressions="true">
         <intercept-url pattern="/main/**" access="permitAll" />
+        <intercept-url pattern="/book/image" access="permitAll" />
         <intercept-url pattern="/login/checkUsernameAvailable" access="permitAll" />
         <intercept-url pattern="/login/sendAuthToken" access="permitAll" />
         <intercept-url pattern="/login/handleAuthToken" access="permitAll" />

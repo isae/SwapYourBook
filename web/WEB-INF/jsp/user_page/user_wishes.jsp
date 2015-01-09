@@ -17,7 +17,19 @@
     }
 
     $(document).ready(function () {
+        alert("wishes are ready!");
         $("#addUserWishFormButton").click(loadTab);
+
+        $("#submitBookWishAddFormButton").click(function (e) {
+            $("#bookWishAddForm").ajaxForm({
+                async: false,
+                success: function (data) {
+                    $("#myWishesLink").trigger("click");
+                },
+                dataType: "text"
+            }).submit();
+        })
+
     });
 </script>
 
@@ -44,11 +56,11 @@
     </tbody>
 </table>
 <button id="addUserWishFormButton" style="margin-top: 15px; margin-bottom: 15px;" data-toggle="collapse"
-        data-target="#bookAddPane"
-        aria-expanded="false" aria-controls="bookAddPane"
-        href="./book/addBookWishForm" id="bookAdd" type="button"
+        data-target="#bookWishAddPane"
+        aria-expanded="false" aria-controls="bookWishAddPane"
+        href="./book/addBookWishForm" type="button"
         class="btn btn-primary btn-lg active">Добавить книгу
 </button>
-<div class="collapse container-fluid" id="bookAddPane">
+<div class="collapse container-fluid" id="bookWishAddPane">
     <jsp:include page="/book/addBookWishForm"/>
 </div>
