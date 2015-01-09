@@ -11,14 +11,6 @@
       type="text/css"/>
 <script src="<s:url value="/res/frameworks/jasny-bootstrap/js/jasny-bootstrap.min.js" />"
         type="text/javascript"></script>
-<script>
-    $(document).ready(function () {
-        $('.selectpicker').selectpicker({
-            size: 4
-        });
-    })
-
-</script>
 <div class="panel panel-info">
     <div class="panel-heading">
         <h3 class="panel-title">Добавить книгу</h3>

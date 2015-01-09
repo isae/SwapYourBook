@@ -11,10 +11,7 @@ import org.springframework.stereotype.Repository;
 import ru.ifmo.ctddev.swapyourbook.helpers.FileType;
 import ru.ifmo.ctddev.swapyourbook.mybatis.dao.CustomUserMapper;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.*;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.City;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.UserOffer;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.UserOfferExample;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.UserWishExample;
+import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.*;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.awt.print.Book;
@@ -171,6 +168,17 @@ public class BookDAO {
     }
 
     public City getCityByID(Integer cityid) {
-       return cityMapper.selectByPrimaryKey(cityid);
+        return cityMapper.selectByPrimaryKey(cityid);
+    }
+
+    public void addWishToUser(User currentUser, String authorName, String bookTitle) {
+        UserWish wish = new UserWish(null, bookTitle, authorName, 0, currentUser.getUserid());
+        userWishMapper.insert(wish);
+    }
+
+    public List<UserWish> getWishesByUser(User currentUser) {
+        UserWishExample example = new UserWishExample();
+        example.createCriteria().andOwnerEqualTo(currentUser.getUserid());
+        return userWishMapper.selectByExample(example);
     }
 }

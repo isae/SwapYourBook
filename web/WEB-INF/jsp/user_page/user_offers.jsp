@@ -9,17 +9,33 @@
     }
 </style>
 <script type="text/javascript">
+
+    function loadTab(e) {
+        e.preventDefault();
+        var $this = $(this),
+                targ = $this.attr('data-target'),
+                loadurl = $this.attr('href');
+
+        $.post(loadurl, function (data) {
+            $(targ).html(data);
+        });
+
+        $this.tab('show');
+    }
     function prepareForWork() {
         var zoomable = $('.zoomable');
         zoomable.smoothZoom();
         zoomable.click(function (e) {
             e.stopPropagation();
         });
-
         $(".clickableBook").click(function (e) {
             var $this = $(this);
             var bookID = $this.find(".offerID").text();
             $(location).attr("href", "./book/editBookForm?userOfferID=" + bookID);
+        });
+        
+        $("#openBookAddFormButton").click(function(e){
+            $("#bookAddPane").collapse('toggle');
         });
 
         $('#authorName').autocomplete({
@@ -55,11 +71,12 @@
 
             }
         });
+        
+        
     }
     $(document).ready(function () {
         prepareForWork();
     });
-
     $("#submitBookAddFormButton").click(function (e) {
         e.preventDefault();
         $("#bookAddForm").ajaxForm({
@@ -78,7 +95,6 @@
     <tr>
         <td>Название</td>
         <td>Автор</td>
-        <td>Год издания</td>
         <td>Фото</td>
     </tr>
     </thead>
@@ -88,7 +104,6 @@
             <td class="hidden offerID">${book.bookid}</td>
             <td>${book.title}</td>
             <td>${book.author}</td>
-            <td>____</td>
             <td><img rel="zoom" class="zoomable" src="./book/image?imageID=${book.thumbnailid}"/></td>
         </tr>
     </c:forEach>
@@ -97,7 +112,7 @@
 <button id="openBookAddFormButton" style="margin-top: 15px; margin-bottom: 15px;" data-toggle="collapse"
         data-target="#bookAddPane"
         aria-expanded="false" aria-controls="bookAddPane"
-        href="./book/addBookForm" id="bookAdd" type="button"
+        href="./book/addBookForm" type="button"
         class="btn btn-primary btn-lg active">Добавить книгу
 </button>
 <div class="collapse container-fluid" id="bookAddPane">
