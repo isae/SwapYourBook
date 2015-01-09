@@ -42,7 +42,6 @@
     <tr>
         <td>Название</td>
         <td>Автор</td>
-        <td>Год издания</td>
         <td>Фото</td>
     </tr>
     </thead>
@@ -52,7 +51,6 @@
             <td class="hidden offerID">${book.bookid}</td>
             <td>${book.title}</td>
             <td>${book.author}</td>
-            <td>____</td>
             <td><img rel="zoom" class="zoomable" src="./book/image?imageID=${book.thumbnailid}"/></td>
         </tr>
     </c:forEach>

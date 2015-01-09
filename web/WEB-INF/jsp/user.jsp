@@ -26,7 +26,20 @@
         $(document).ready(function () {
             $(document).on("click", "#myMenu a", loadTab);
             $("#myOffersLink").trigger('click');
+            $("#myWishesLink").click(function (e) {
+                $("#addUserWishFormButton").click(loadTab);
+                $("#submitBookWishAddFormButton").click(function(e){
+                    $("#bookWishAddForm").ajaxForm({
+                        async:false,
+                        success: function (data) {
+                            $("#myWishesLink").trigger("click");
+                        },
+                        dataType: "text"
+                    }).submit();
+                })
+            });//trigger('click');
             $("#bookAdd").click(loadTab);
+            $("#openBookAddFormButton").click(loadTab);
         });
     </script>
     <title>User Page</title>
@@ -50,8 +63,8 @@
     </header>
     <div class="row">
         <div class="col-md-2">
-            <img style="width: 100%; padding-bottom: 5px;margin-bottom: 10px;"
-                 src="<s:url value="/res/images/deyneka.jpg"/>" class="img-thumbnail">
+            <img style="width: 100%; padding-bottom: 5px;margin-bottom: 10px;" class="img-thumbnail"
+                 src="./book/image?imageID=${user.avatarid}"/>
             <ul class="nav nav-pills nav-stacked" role="tablist" id="myMenu">
                 <li role="presentation">
                     <a id="myOffersLink" data-target="#offers" href="./user/myOffers">
@@ -61,7 +74,7 @@
                     </a>
                 </li>
                 <li role="presentation">
-                    <a data-target="#wishes" href="./user/myWishes">
+                    <a id="myWishesLink" data-target="#wishes" href="./user/myWishes">
                         <span>Заберу</span>
                     <span style="float: right; color: green;" class="glyphicon glyphicon-import"
                           aria-hidden="true"></span>

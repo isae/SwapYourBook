@@ -2,14 +2,31 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<h1>Заберу</h1>
+<script type="text/javascript">
+    function loadTab(e) {
+        e.preventDefault();
+        var $this = $(this),
+                targ = $this.attr('data-target'),
+                loadurl = $this.attr('href');
 
+        $.post(loadurl, function (data) {
+            $(targ).html(data);
+        });
+
+        $this.tab('show');
+    }
+
+    $(document).ready(function () {
+        $("#addUserWishFormButton").click(loadTab);
+    });
+</script>
+
+<h1>Заберу</h1>
 <table class="table table-hover">
     <thead>
     <tr>
         <td>Название</td>
         <td>Автор</td>
-        <td>Год издания</td>
     </tr>
     </thead>
     <tbody>
@@ -26,7 +43,7 @@
     </c:forEach>--%>
     </tbody>
 </table>
-<button id="openBookAddFormButton" style="margin-top: 15px; margin-bottom: 15px;" data-toggle="collapse"
+<button id="addUserWishFormButton" style="margin-top: 15px; margin-bottom: 15px;" data-toggle="collapse"
         data-target="#bookAddPane"
         aria-expanded="false" aria-controls="bookAddPane"
         href="./book/addBookWishForm" id="bookAdd" type="button"

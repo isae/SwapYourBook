@@ -88,8 +88,7 @@ public class BookController extends MyController implements MyLoggable {
             HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ModelAndView mav = new ModelAndView("book/book_wish_add.jsp");
-        User user = userDAO.getUser(getCurrentUser().getUserid());
-        mav.addObject("user", user);
+        mav.addObject("user", getCurrentUser());
         return mav;
     }
 

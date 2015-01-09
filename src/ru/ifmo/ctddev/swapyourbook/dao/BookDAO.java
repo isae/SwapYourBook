@@ -10,10 +10,8 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.ifmo.ctddev.swapyourbook.helpers.FileType;
 import ru.ifmo.ctddev.swapyourbook.mybatis.dao.CustomUserMapper;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.AuthTokenMapper;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserMapper;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserOfferMapper;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserWishMapper;
+import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.*;
+import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.City;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.UserOffer;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.UserOfferExample;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.UserWishExample;
@@ -44,6 +42,9 @@ public class BookDAO {
     private UserWishMapper userWishMapper;
     @Autowired
     private AuthTokenMapper authTokenMapper;
+
+    @Autowired
+    private CityMapper cityMapper;
 
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -167,5 +168,9 @@ public class BookDAO {
         UserWishExample ex = new UserWishExample();
         ex.createCriteria().andUserwishidEqualTo(userWishID);
         userWishMapper.deleteByExample(ex);
+    }
+
+    public City getCityByID(Integer cityid) {
+       return cityMapper.selectByPrimaryKey(cityid);
     }
 }
