@@ -11,10 +11,57 @@
       type="text/css"/>
 <script src="<s:url value="/res/frameworks/jasny-bootstrap/js/jasny-bootstrap.min.js" />"
         type="text/javascript"></script>
+
+<script src="<s:url value="/res/js/jquery.autocomplete.js" />" type="text/javascript"></script>
+
+<link href="<s:url value="/res/css/autocomplete-style.css" />" rel="stylesheet" type="text/css"/>
+
 <script>
     $(document).ready(function () {
-        $('.selectpicker').selectpicker({
+/*        $('.selectpicker').selectpicker({
             size: 4
+        });*/
+
+        alert("kokoko");
+    })
+    $(document).ready(function () {
+        $('#authorName').autocomplete({
+            serviceUrl: 'user/addOfferAgain/autocomplete',
+            paramName: {
+                requestedString: requestedString,
+                isByAuthor: true
+            },
+            // max_length: 30,
+            transformResult: function (response) {
+
+                return {
+                    //must convert json to javascript object before process
+                    suggestions: $.map($.parseJSON(response), function (item) {
+                        return { value: item.tagName, data: item.id };
+                    })
+
+                };
+
+            }
+        });
+    })
+
+    $(document).ready(function () {
+        $('#bookTitle').autocomplete({
+            serviceUrl: 'user/addOfferAgain/autocomplete',
+            paramName: "requestedString",
+            // max_length: 30,
+            transformResult: function (response) {
+
+                return {
+                    //must convert json to javascript object before process
+                    suggestions: $.map($.parseJSON(response), function (item) {
+                        return { value: item.tagName, data: item.id };
+                    })
+
+                };
+
+            }
         });
     })
 
@@ -33,7 +80,7 @@
             </div>--%>
             <div class="form-group">
                 <label for="authorName">Автор:</label>
-                <input type="text" class="form-control" name="authorName" id="authorName" placeholder="Имя автора">
+                <input type="text" class="form-control" name="authorName" id="authorName" placeholder="Имя автора" autocomplete="off">
             </div>
             <input type="hidden" name="userID" value="${user.userid}">
 

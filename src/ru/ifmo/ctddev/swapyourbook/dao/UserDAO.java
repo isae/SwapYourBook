@@ -9,7 +9,10 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import ru.ifmo.ctddev.swapyourbook.helpers.GoogleBooksSearcher;
+import ru.ifmo.ctddev.swapyourbook.helpers.SearchItem;
 import ru.ifmo.ctddev.swapyourbook.helpers.UserRole;
+import ru.ifmo.ctddev.swapyourbook.mybatis.ExtendedBook;
 import ru.ifmo.ctddev.swapyourbook.mybatis.dao.CustomUserMapper;
 import ru.ifmo.ctddev.swapyourbook.helpers.MyLoggable;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.*;
@@ -18,6 +21,10 @@ import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.*;
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -186,5 +193,50 @@ public class UserDAO implements MyLoggable {
 
     public void deleteUser(User currentUser) {
         userMapper.deleteByPrimaryKey(currentUser.getUserid());
+    }
+
+    public List<String> getAutocompleteList(String requestedString,
+                                            final boolean isByAuthor) {
+        assert jdbcTemplate != null;
+
+        String request = "%" + requestedString + "%";
+        String queryString;
+        List<String> matchedBooks = null;
+        if (!isByAuthor) {
+            queryString = "SELECT * FROM user_offer WHERE title LIKE ?";
+
+        } else {
+            queryString = "SELECT * FROM user_offer WHERE author LIKE ?";
+        }
+
+        // Find books
+        matchedBooks = jdbcTemplate.query(queryString, new Object[]{request}, new RowMapper<String>() {
+            @Override
+            public String mapRow(ResultSet rs, int i) throws SQLException {
+                if (!isByAuthor) {
+                    return rs.getString("title");
+                } else {
+                    return rs.getString("author");
+                }
+            }
+        });
+
+        return matchedBooks;
+    }
+
+    public List<String> getAutocompleteListByCities(String requestedString) {
+        assert jdbcTemplate != null;
+
+        String request = "%" + requestedString + "%";
+        String queryString = "SELECT * FROM city WHERE name LIKE ?";
+        // Find books
+        List<String> matchedBooks = jdbcTemplate.query(queryString, new Object[]{request}, new RowMapper<String>() {
+            @Override
+            public String mapRow(ResultSet rs, int i) throws SQLException {
+                return rs.getString("name");
+            }
+        });
+
+        return matchedBooks;
     }
 }

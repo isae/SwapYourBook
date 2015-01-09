@@ -51,6 +51,7 @@ header {
 .search form[name="search-form"] {
     protion: fixed;
     left: 80%;
+    margin-bottom: 10px;
 }
 
 .wrapper_search-block__search {

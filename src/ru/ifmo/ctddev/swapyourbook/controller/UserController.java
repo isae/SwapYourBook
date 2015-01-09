@@ -1,5 +1,6 @@
 package ru.ifmo.ctddev.swapyourbook.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.ifmo.ctddev.swapyourbook.dao.BookDAO;
 import ru.ifmo.ctddev.swapyourbook.dao.UserDAO;
 import ru.ifmo.ctddev.swapyourbook.helpers.MyLoggable;
+import ru.ifmo.ctddev.swapyourbook.helpers.Tag;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.User;
 
 import javax.servlet.ServletException;
@@ -22,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -152,5 +156,86 @@ public class UserController extends MyController implements MyLoggable {
             userDAO.changePassword(user,newPassword);
         }
         return result;
+    }
+
+    @RequestMapping(value = "/addOffer/authorAutocomplete", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+    public
+    @ResponseBody
+    String authorAutocomplete(@RequestParam String requestedString) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            List<String> suggestions = userDAO.getAutocompleteList(requestedString, true);
+
+            for (int i = 0; i < suggestions.size(); ++i) {
+                System.out.println("##" + i + " " + suggestions.get(i));
+            }
+
+            // todo mb remove tags -> only strings
+            List<Tag> tags = new ArrayList<>(suggestions.size());
+            for (int i = 0; i < suggestions.size(); ++i) {
+                tags.add(new Tag(i, suggestions.get(i)));
+            }
+
+            return mapper.writeValueAsString(tags);
+        } catch (IOException e) {
+            logger.error("IO error:", e);
+        }
+
+        return null;
+    }
+
+    @RequestMapping(value = "/addOffer/titleAutocomplete", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+    public
+    @ResponseBody
+    String titleAutocomplete(@RequestParam String requestedString) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            List<String> suggestions = userDAO.getAutocompleteList(requestedString, false);
+
+            for (int i = 0; i < suggestions.size(); ++i) {
+                System.out.println("##" + i + " " + suggestions.get(i));
+            }
+
+            // todo mb remove tags -> only strings
+            List<Tag> tags = new ArrayList<>(suggestions.size());
+            for (int i = 0; i < suggestions.size(); ++i) {
+                tags.add(new Tag(i, suggestions.get(i)));
+            }
+
+            return mapper.writeValueAsString(tags);
+        } catch (IOException e) {
+            logger.error("IO error:", e);
+        }
+
+        return null;
+    }
+
+    @RequestMapping(value = "/addOffer/cityAutocomplete", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+    public
+    @ResponseBody
+    String cityAutocomplete(@RequestParam String requestedString) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            List<String> suggestions = userDAO.getAutocompleteListByCities(requestedString);
+
+            for (int i = 0; i < suggestions.size(); ++i) {
+                System.out.println("##" + i + " " + suggestions.get(i));
+            }
+
+            // todo mb remove tags -> only strings
+            List<Tag> tags = new ArrayList<>(suggestions.size());
+            for (int i = 0; i < suggestions.size(); ++i) {
+                tags.add(new Tag(i, suggestions.get(i)));
+            }
+
+            return mapper.writeValueAsString(tags);
+        } catch (IOException e) {
+            logger.error("IO error:", e);
+        }
+
+        return null;
     }
 }

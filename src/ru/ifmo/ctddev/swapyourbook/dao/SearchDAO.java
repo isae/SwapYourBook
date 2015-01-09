@@ -65,10 +65,10 @@ public class SearchDAO {
         String queryString;
         List<SearchItem> matchedBooks = null;
         if (!isByAuthor) {
-            queryString = "SELECT * FROM user_wish WHERE title LIKE ?";
+            queryString = "SELECT * FROM user_offer WHERE title LIKE ?";
 
         } else {
-            queryString = "SELECT * FROM user_wish WHERE author LIKE ?";
+            queryString = "SELECT * FROM user_offer WHERE author LIKE ?";
         }
 
         // Find books
@@ -80,36 +80,28 @@ public class SearchDAO {
                         item.setTitle(rs.getString("title"));
                         item.setAuthor(rs.getString("author"));
                         item.setImgID(rs.getInt("thumbnailID"));
+                        item.setOwnerId(rs.getInt("owner"));
+                        item.setComment(rs.getString("comment"));
                         return item;
                     }
                 });
 
         for (int i = 0; i < matchedBooks.size(); ++i) {
             SearchItem item = matchedBooks.get(i);
-            int requestedId = item.getBookID();
-            List<Integer> ownersIds = jdbcTemplate.query("SELECT * FROM user_wish WHERE bookID=?", new Object[]{requestedId}, new RowMapper<Integer>() {
+            int requestedId = item.getOwnerId();
+            List<String> owners = jdbcTemplate.query("SELECT * FROM user WHERE userID=?", new Object[]{requestedId}, new RowMapper<String>() {
                 @Override
-                public Integer mapRow(ResultSet rs, int i) throws SQLException {
-                    return rs.getInt("owner");
+                public String mapRow(ResultSet rs, int i) throws SQLException {
+                    return rs.getString("username");
                 }
             });
 
-            List<String> owners = new ArrayList<String>(ownersIds.size());
-            for (int j = 0; j < ownersIds.size(); ++j) {
-                requestedId = ownersIds.get(j);
-                List<String> ownerName = jdbcTemplate.query("SELECT * FROM user WHERE userID=?", new Object[]{requestedId}, new RowMapper<String>() {
-                    @Override
-                    public String mapRow(ResultSet rs, int i) throws SQLException {
-                        return rs.getString("username");
-                    }
-                });
-                // todo
-                assert ownerName.size() == 1;
+            assert owners.size() == 1;
+            item.setOwner(owners.get(0));
 
-                owners.add(ownerName.get(0));
+            if (item.getComment() == null) {
+                item.setComment("ВЛАДЕЛЕЦ НЕ УКАЗАЛ ОПИСАНИЯ. ХАХАХА");
             }
-
-            matchedBooks.get(i).setOwners(owners);
         }
 
         return matchedBooks;

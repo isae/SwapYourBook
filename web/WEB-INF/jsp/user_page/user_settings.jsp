@@ -30,6 +30,23 @@
                 dataType: "text"
             }).submit();
         });
+
+        $('#userCity').autocomplete({
+            serviceUrl: 'user/addOffer/cityAutocomplete',
+            paramName: "requestedString",
+            maxCount: 10,
+            transformResult: function (response) {
+
+                return {
+                    //must convert json to javascript object before process
+                    suggestions: $.map($.parseJSON(response), function (item) {
+                        return { value: item.tagName, data: item.id };
+                    })
+
+                };
+
+            }
+        });
     });
 
 </script>

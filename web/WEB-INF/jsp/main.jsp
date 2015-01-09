@@ -42,7 +42,6 @@
                 serviceUrl: 'main/autocomplete',
                 paramName: "requestedString",
                 delimiter: ",",
-                // max_length: 30,
                 transformResult: function (response) {
 
                     return {

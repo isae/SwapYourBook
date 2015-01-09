@@ -4,7 +4,8 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 
 <link href="<s:url value="/res/frameworks/smoothzoom/szoom.css" />" rel="stylesheet"/>
-<script type="text/javascript" src="<s:url value="/res/frameworks/smoothzoom/szoom.js" />"></script>
+<script type="text/javascript" src="<s:url value="/res/frameworks/smoothzoom/szoom.js" />" type="text/javascript"></script>
+<script src="<s:url value="/res/js/jquery-form.js" />" type="text/javascript"></script>
 
 <script>
     $(document).ready( function() {
@@ -21,7 +22,7 @@
 <c:forEach var="item" items="${bookItems}">
     <div class ="search-item ${count}">
         <div class = "s-image">
-            <img rel="zoom" class="zoomable" src="./book/image?imageID=${item.imgID}">
+            <img style="max-height: 100px; max-width: 100px" rel="zoom" class="zoomable" src="./book/image?imageID=${item.imgID}">
         </div>
         <div class="description">
             <h3 class="title">
@@ -29,6 +30,9 @@
             </h3>
             <div class="author">
                     ${item.author}
+            </div>
+            <div class="owner">
+                <a href="./user">${item.owner}</a>
             </div>
         </div>
     </div>
@@ -44,37 +48,35 @@
                 </div>
                 <div class="modal-body">
 
-                    <div class ="book-info">
-                        <div class = "s-image">
+                    <div class ="row">
+                        <div class = "col-md-5">
                             <img style="max-height: 200px; max-width: 100%"
                                  src="./book/image?imageID=${item.imgID}">
+
+                            <div class="owner-item" style="margin-top: 10px">
+                                <h4 class="some_text">
+                                    Владелец: <a href="./user">${item.owner}</a>
+                                </h4>
+                            </div>
+
                         </div>
-                        <div class="description">
+
+                        <div class="col-md-7">
                             <h3 class="title">
                                 ${item.title}
                             </h3>
                             <div class="author">
                                     ${item.author}
                             </div>
+
+                            <hr style="margin-top: 10px; margin-bottom: 5px">
+
+                            <h4 class="text">
+                                Описание книги:
+                            </h4>
+                            <textarea style="max-width: 100%" class="form-control" name="bookDescription" id="bookDescription" readonly>${item.comment}</textarea>
                         </div>
                     </div>
-
-                    <hr style="margin-top: 150px; margin-bottom: 20px">
-
-                    <h4 class="text">
-                        Пользователи, у которых есть эта книга:
-                    </h4>
-
-                    <c:forEach var="owner" items="${item.owners}">
-                        <div class="owner-item">
-                            <div class="owner-name">
-                                <a href="./user">${owner}</a>
-                            </div>
-                            <div class="owner-send-message">
-                                <button type="button" class="btn btn-primary" onclick="alert('You cannot do that yet!');">Написать этому пользователю</button>
-                            </div>
-                        </div>
-                    </c:forEach>
 
                 </div>
             </div>

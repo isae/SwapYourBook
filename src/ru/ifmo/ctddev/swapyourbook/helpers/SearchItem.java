@@ -7,7 +7,34 @@ public class SearchItem {
     private String title;
     private String author;
     private int imgID;
-    private List<String> owners;
+    private String owner;
+    private int ownerId;
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    private String comment;
+
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
 
     public int getBookID() {
         return bookID;
@@ -39,13 +66,5 @@ public class SearchItem {
 
     public void setImgID(int imgID) {
         this.imgID = imgID;
-    }
-
-    public List<String> getOwners() {
-        return owners;
-    }
-
-    public void setOwners(List<String> owners) {
-        this.owners = owners;
     }
 }

@@ -10,6 +10,7 @@
     <script src="<s:url value="/res/frameworks/bootstrap/js/bootstrap.min.js" />" type="text/javascript"></script>
     <link href="<s:url value="/res/frameworks/smoothzoom/szoom.css" />" rel="stylesheet"/>
     <script type="text/javascript" src="<s:url value="/res/frameworks/smoothzoom/szoom.js" />"></script>
+    <script src="<s:url value="/res/js/jquery.autocomplete.js" />" type="text/javascript"></script>
     <script type="text/javascript">
         function loadTab(e) {
             e.preventDefault();
