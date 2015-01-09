@@ -41,11 +41,17 @@ public class SearchDAO {
 
     public List<String> getAutocompleteList(String requestedString) {
         List<ExtendedBook> books = new ArrayList<>();
-        books.addAll(GoogleBooksSearcher.queryGoogleBooksCommon(null, requestedString));
+        System.out.println("#############READY NIGGA#####");
+        // search both by titles and authors
+        books.addAll(GoogleBooksSearcher.queryGoogleBooksCommon(requestedString, null));
 
         List<String> matchedBooksAndAuthors = new ArrayList<>(books.size());
         for (int i = 0; i < books.size(); ++i) {
-            matchedBooksAndAuthors.add(books.get(i).getTitle());
+            if (books.get(i).getTitle().toLowerCase().contains(requestedString.toLowerCase())) {
+                matchedBooksAndAuthors.add(books.get(i).getTitle());
+            } else {
+                matchedBooksAndAuthors.add(books.get(i).getAuthor());
+            }
         }
 
         return matchedBooksAndAuthors;

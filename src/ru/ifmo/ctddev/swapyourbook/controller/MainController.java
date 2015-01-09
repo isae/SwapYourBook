@@ -45,6 +45,7 @@ public class MainController extends MyController{
         ObjectMapper mapper = new ObjectMapper();
         try {
             List<String> suggestions = searchDAO.getAutocompleteList(requestedString);
+
             for (int i = 0; i < suggestions.size(); ++i) {
                 System.out.println("##" + i + " " + suggestions.get(i));
             }
