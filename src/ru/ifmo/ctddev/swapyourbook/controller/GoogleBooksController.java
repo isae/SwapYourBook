@@ -8,7 +8,6 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.ifmo.ctddev.swapyourbook.helpers.GoogleBooksSearcher;
 import ru.ifmo.ctddev.swapyourbook.helpers.MyLoggable;
 import ru.ifmo.ctddev.swapyourbook.mybatis.ExtendedBook;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.Book;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

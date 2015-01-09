@@ -54,28 +54,28 @@
             <div class="clearfix"></div>
         </div>
         <div class="panel-body">
-            <form id="bookEditForm" role="form" method="post" action="./editBook" enctype="multipart/form-data">
+            <form id="bookEditForm" role="form" method="post" action="./editUserOffer" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="authorName">Автор:</label>
                     <input type="text" class="form-control" name="authorName" id="authorName" placeholder="Имя автора"
-                           value="${book.book.author}">
+                           value="${book.author}">
                 </div>
-                <input type="hidden" name="bookID" value="${book.book.bookid}">
+                <input type="hidden" name="bookID" value="${book.bookid}">
 
                 <div class="form-group">
                     <label for="bookTitle">Название:</label>
-                    <input type="text" name="bookTitle" class="form-control" id="bookTitle" value="${book.book.title}"
+                    <input type="text" name="bookTitle" class="form-control" id="bookTitle" value="${book.title}"
                            placeholder="Название книги">
                 </div>
                 <div class="form-group">
                     <label for="bookDescription">Описание:</label>
                     <textarea class="form-control" name="bookDescription" id="bookDescription"
-                              rows="5">${book.book.comment}</textarea>
+                              rows="5">${book.comment}</textarea>
                 </div>
                 <div class="form-group">
                     <div class="fileinput fileinput-exists" data-provides="fileinput">
                         <div class="fileinput-preview thumbnail" style="max-width: 100px">
-                            <img rel="zoom" class="zoomable" src="./image?imageID=${book.book.thumbnailid}"/>
+                            <img rel="zoom" class="zoomable" src="./image?imageID=${book.thumbnailid}"/>
                         </div>
                         <div>
                         <span class="btn btn-default btn-file">
@@ -95,15 +95,15 @@
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
-        <form action="./deleteBook" method="get">
+        <form action="./deleteUserOffer" method="get">
             <div class="modal-content">
                 <div class="modal-header bg-danger">
                     <button type="button" class="close" data-dismiss="modal"><span
                             aria-hidden="true">&times;</span><span
                             class="sr-only">Закрыть</span></button>
-                    <h4 class="modal-title" id="deleteBook">Вы уверены, что хотите удалить "${book.book.title}"?</h4>
+                    <h4 class="modal-title" id="deleteBook">Вы уверены, что хотите удалить "${book.title}"?</h4>
                 </div>
-                <input type="hidden" name="userBookID" value="${book.userBook.userbookid}">
+                <input type="hidden" name="userOfferID" value="${book.bookid}">
 
                 <div class="modal-footer">
                     <input type="submit" id="loginButton" class="btn btn-danger" value="Удалить"/>

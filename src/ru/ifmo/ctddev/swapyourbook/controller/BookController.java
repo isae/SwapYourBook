@@ -8,14 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 import ru.ifmo.ctddev.swapyourbook.dao.BookDAO;
 import ru.ifmo.ctddev.swapyourbook.dao.UserDAO;
 import ru.ifmo.ctddev.swapyourbook.helpers.MyLoggable;
-import ru.ifmo.ctddev.swapyourbook.mybatis.ExtendedBook;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.Book;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.User;
-import ru.ifmo.ctddev.swapyourbook.pojo.UserBookWrapper;
+import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.UserOffer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -53,24 +50,24 @@ public class BookController extends MyController implements MyLoggable {
     }
 
     @RequestMapping(value = "/editBookForm", method = RequestMethod.GET)
-    public ModelAndView getBookEditForm(@RequestParam("userBookID") int userBookID,
+    public ModelAndView getBookEditForm(@RequestParam("userOfferID") int userOfferID,
                                         HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ModelAndView mav = new ModelAndView("book/book_edit.jsp");
-        UserBookWrapper book = bookDAO.getBookWithUser(userBookID);
+        UserOffer book = bookDAO.getUserOffer(userOfferID);
         mav.addObject("book", book);
         return mav;
     }
 
-    @RequestMapping(value = "/deleteBook", method = RequestMethod.GET)
-    public String deleteBook(@RequestParam("userBookID") int userBookID,
+    @RequestMapping(value = "/deleteUserOffer", method = RequestMethod.GET)
+    public String deleteBook(@RequestParam("userOfferID") int userOfferID,
                              HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        bookDAO.deleteUserBook(userBookID);
+        bookDAO.deleteUserOffer(userOfferID);
         return "redirect:/user";
     }
 
-    @RequestMapping(value = "/editBook", headers = "content-type=multipart/*", method = RequestMethod.POST)
+    @RequestMapping(value = "/editUserOffer", headers = "content-type=multipart/*", method = RequestMethod.POST)
     public
     @ResponseBody
     String editBook(@RequestParam("bookTitle") String title,

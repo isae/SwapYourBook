@@ -14,14 +14,15 @@
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://178.62.246.183:3306/book_db?useUnicode=true&amp;characterEncoding=UTF-8"/>
+        <property name="url"
+                  value="jdbc:mysql://178.62.246.183:3306/book_db?useUnicode=true&amp;characterEncoding=UTF-8"/>
         <!--<property name="url" value="jdbc:mysql://localhost:3306/book_db"/>-->
         <property name="username" value="root"/>
         <property name="password" value="admin"/>
     </bean>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
+        <property name="dataSource" ref="dataSource"/>
     </bean>
 
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
@@ -29,32 +30,39 @@
     </bean>
 
     <bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserMapper" />
-        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+        <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 
-    <bean id="bookMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.BookMapper" />
-        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    <bean id="userOfferMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserOfferMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 
-    <bean id="userBookMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserBookMapper" />
-        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+
+    <bean id="userWishMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserWishMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+
+    <bean id="cityMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.cityMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 
     <bean id="fileMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.FileMapper" />
-        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+        <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.FileMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 
     <bean id="customUserMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.dao.CustomUserMapper" />
-        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+        <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.dao.CustomUserMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
     <bean id="authTokenMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.AuthTokenMapper" />
-        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+        <property name="mapperInterface" value="ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.AuthTokenMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 
     <bean id="userDAO" class="ru.ifmo.ctddev.swapyourbook.dao.UserDAO">
@@ -68,7 +76,8 @@
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
-    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
-    <bean id="securityContextRepository" class="org.springframework.security.web.context.HttpSessionSecurityContextRepository" />
-    <bean id="securityContextHolder" class="org.springframework.security.core.context.SecurityContextHolder" />
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+    <bean id="securityContextRepository"
+          class="org.springframework.security.web.context.HttpSessionSecurityContextRepository"/>
+    <bean id="securityContextHolder" class="org.springframework.security.core.context.SecurityContextHolder"/>
 </beans>

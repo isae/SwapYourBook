@@ -38,13 +38,16 @@
         </table>
         <table tableName="auth_token">
         </table>
-        <table tableName="book">
-            <property name="constructorBased" value="true"/>
-        </table>
-        <table tableName="user_book">
+        <table tableName="user_offer">
             <property name="constructorBased" value="true"/>
         </table>
         <table tableName="file">
+            <property name="constructorBased" value="true"/>
+        </table>
+        <table tableName="user_wish">
+            <property name="constructorBased" value="true"/>
+        </table>
+        <table tableName="city">
             <property name="constructorBased" value="true"/>
         </table>
 

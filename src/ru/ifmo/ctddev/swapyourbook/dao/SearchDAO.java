@@ -4,22 +4,14 @@ package ru.ifmo.ctddev.swapyourbook.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestParam;
 import ru.ifmo.ctddev.swapyourbook.helpers.GoogleBooksSearcher;
 import ru.ifmo.ctddev.swapyourbook.helpers.SearchItem;
-import ru.ifmo.ctddev.swapyourbook.helpers.SuggestionItem;
 import ru.ifmo.ctddev.swapyourbook.mybatis.ExtendedBook;
-import ru.ifmo.ctddev.swapyourbook.mybatis.dao.CustomUserMapper;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.AuthTokenMapper;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.FileMapper;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Repository
@@ -67,10 +59,10 @@ public class SearchDAO {
         String queryString;
         List<SearchItem> matchedBooks = null;
         if (!isByAuthor) {
-            queryString = "SELECT * FROM book WHERE title LIKE ?";
+            queryString = "SELECT * FROM user_wish WHERE title LIKE ?";
 
         } else {
-            queryString = "SELECT * FROM book WHERE author LIKE ?";
+            queryString = "SELECT * FROM user_wish WHERE author LIKE ?";
         }
 
         // Find books
@@ -89,10 +81,10 @@ public class SearchDAO {
         for (int i = 0; i < matchedBooks.size(); ++i) {
             SearchItem item = matchedBooks.get(i);
             int requestedId = item.getBookID();
-            List<Integer> ownersIds = jdbcTemplate.query("SELECT * FROM user_book WHERE bookID=?", new Object[]{requestedId}, new RowMapper<Integer>() {
+            List<Integer> ownersIds = jdbcTemplate.query("SELECT * FROM user_wish WHERE bookID=?", new Object[]{requestedId}, new RowMapper<Integer>() {
                 @Override
                 public Integer mapRow(ResultSet rs, int i) throws SQLException {
-                    return rs.getInt("userID");
+                    return rs.getInt("owner");
                 }
             });
 

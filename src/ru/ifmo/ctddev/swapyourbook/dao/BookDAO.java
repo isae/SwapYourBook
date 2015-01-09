@@ -1,33 +1,25 @@
 package ru.ifmo.ctddev.swapyourbook.dao;
 
-import com.mysql.jdbc.Blob;
 import com.mysql.jdbc.Statement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.multipart.MultipartFile;
 import ru.ifmo.ctddev.swapyourbook.helpers.FileType;
-import ru.ifmo.ctddev.swapyourbook.helpers.UserBookHelper;
-import ru.ifmo.ctddev.swapyourbook.mybatis.ExtendedBook;
 import ru.ifmo.ctddev.swapyourbook.mybatis.dao.CustomUserMapper;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.AuthTokenMapper;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.BookMapper;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserBookMapper;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserMapper;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.Book;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.BookExample;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.UserBook;
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.UserBookExample;
-import ru.ifmo.ctddev.swapyourbook.pojo.UserBookWrapper;
+import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserOfferMapper;
+import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserWishMapper;
+import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.UserOffer;
+import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.UserOfferExample;
+import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.UserWishExample;
 
-import javax.mail.Multipart;
 import javax.sql.rowset.serial.SerialBlob;
-import javax.swing.plaf.basic.BasicComboBoxUI;
+import java.awt.print.Book;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -45,11 +37,11 @@ public class BookDAO {
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private BookMapper bookMapper;
+    private UserOfferMapper userOfferMapper;
     @Autowired
     private CustomUserMapper customUserMapper;
     @Autowired
-    private UserBookMapper userBookMapper;
+    private UserWishMapper userWishMapper;
     @Autowired
     private AuthTokenMapper authTokenMapper;
 
@@ -87,7 +79,7 @@ public class BookDAO {
         return keyHolder.getKey().intValue();
     }
 
-    public synchronized boolean addBookToUser(int userID, final String authorName, final String title, final String description, final byte[] imageThumbnail) {
+    public synchronized boolean addOfferToUser(final int userID, final String authorName, final String title, final String description, final byte[] imageThumbnail) {
         final int imageID = putFileToDB(imageThumbnail);
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
@@ -95,36 +87,37 @@ public class BookDAO {
                     public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                         PreparedStatement ps =
                                 connection.prepareStatement(
-                                        "INSERT INTO book(title,author,comment,thumbnailID,from_google) VALUES(?,?,?,?,?)",
+                                        "INSERT INTO user_offer(title,author,comment,thumbnailID,from_google,owner) VALUES(?,?,?,?,?,?)",
                                         Statement.RETURN_GENERATED_KEYS);
                         ps.setString(1, title);
                         ps.setString(2, authorName);
                         ps.setString(3, description);
                         ps.setInt(4, imageID);
                         ps.setBoolean(5, false);
+                        ps.setInt(6, userID);
                         return ps;
                     }
                 },
                 keyHolder);
         int bookID = keyHolder.getKey().intValue();
-        jdbcTemplate.update("INSERT INTO user_book(userID,bookID,type) VALUES(?,?,?)", userID, bookID, UserBookHelper.OFFER.type);
         return true;
     }
 
-    public synchronized boolean addBookToUser(int userID, final String authorName, final String title, final String description, final int imageID) {
+    public synchronized boolean addBookToUser(final int userID, final String authorName, final String title, final String description, final int imageID) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
                 new PreparedStatementCreator() {
                     public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                         PreparedStatement ps =
                                 connection.prepareStatement(
-                                        "INSERT INTO book(title,author,comment,thumbnailID,from_google) VALUES(?,?,?,?,?)",
+                                        "INSERT INTO book(title,author,comment,thumbnailID,from_google,owner) VALUES(?,?,?,?,?,?)",
                                         Statement.RETURN_GENERATED_KEYS);
                         ps.setString(1, title);
                         ps.setString(2, authorName);
                         ps.setString(3, description);
                         ps.setInt(4, imageID);
                         ps.setBoolean(5, false);
+                        ps.setInt(6, userID);
                         return ps;
                     }
                 },
@@ -134,10 +127,10 @@ public class BookDAO {
         return true;
     }
 
-    public Book getBook(int bookID) {
-        BookExample example = new BookExample();
+    public UserOffer getUserOffer(int bookID) {
+        UserOfferExample example = new UserOfferExample();
         example.createCriteria().andBookidEqualTo(bookID);
-        List<Book> books = bookMapper.selectByExample(example);
+        List<UserOffer> books = userOfferMapper.selectByExample(example);
         if (books.size() != 1) {
             return null;
         } else {
@@ -146,67 +139,33 @@ public class BookDAO {
     }
 
     public synchronized boolean tryToEditBook(int userID, Integer bookID, String title, String author, String description, byte[] thumbnail) {
-        Book book = getBook(bookID);
+        UserOffer book = getUserOffer(bookID);
         if (book == null) return false;
-        UserBookExample example = new UserBookExample();
-        example.createCriteria().andBookidEqualTo(bookID);
-        List<UserBook> userBooks = userBookMapper.selectByExample(example);
         if (thumbnail != null
                 || !description.equals(book.getComment())
                 || !author.equals(book.getAuthor())
                 || !title.equals(book.getTitle())) {
             int imageID = thumbnail == null ? book.getThumbnailid() : putFileToDB(thumbnail);
-            if (userBooks.size() > 1) {
-                example.createCriteria().andUseridEqualTo(userID);
-                userBookMapper.deleteByExample(example);
-                addBookToUser(userID, author, title, description, imageID);
-            } else {
-                book.setTitle(title);
-                book.setComment(description);
-                book.setAuthor(author);
-                book.setThumbnailid(imageID);
-                BookExample idExample = new BookExample();
-                idExample.createCriteria().andBookidEqualTo(book.getBookid());
-                bookMapper.updateByExample(book, idExample);
-            }
+            book.setTitle(title);
+            book.setComment(description);
+            book.setAuthor(author);
+            book.setThumbnailid(imageID);
+            UserOfferExample idExample = new UserOfferExample();
+            idExample.createCriteria().andBookidEqualTo(book.getBookid());
+            userOfferMapper.updateByExample(book, idExample);
         }
         return true;
     }
 
-    public void deleteBook(int bookID) {
-        BookExample ex = new BookExample();
-        ex.createCriteria().andBookidEqualTo(bookID);
-        bookMapper.deleteByExample(ex);
+    public void deleteUserOffer(int userOfferID) {
+        UserOfferExample ex = new UserOfferExample();
+        ex.createCriteria().andBookidEqualTo(userOfferID);
+        userOfferMapper.deleteByExample(ex);
     }
 
-
-    public UserBookWrapper getBookWithUser(int userBookID) {
-        boolean f = true;
-        List<UserBookWrapper> wrappers = jdbcTemplate.query(
-                "SELECT * FROM user_book JOIN book USING(bookID) WHERE userBookID = ?",
-                new Object[]{userBookID},
-                new RowMapper<UserBookWrapper>() {
-                    @Override
-                    public UserBookWrapper mapRow(ResultSet rs, int i) throws SQLException {
-                        UserBookWrapper wrapper = new UserBookWrapper();
-                        Book book = new Book();
-                        book.setTitle(rs.getString("title"));
-                        book.setAuthor(rs.getString("author"));
-                        book.setThumbnailid(rs.getInt("thumbnailID"));
-                        book.setBookid(rs.getInt("bookID"));
-                        UserBook userBook = new UserBook();
-                        userBook.setBookid(rs.getInt("bookID"));
-                        userBook.setUserbookid(rs.getInt("userBookID"));
-                        wrapper.setBook(book);
-                        wrapper.setUserBook(userBook);
-                        return wrapper;
-                    }
-                });
-        if (wrappers.size() == 1) return wrappers.get(0);
-        return null;
-    }
-
-    public void deleteUserBook(int userBookID) {
-        userBookMapper.deleteByPrimaryKey(userBookID);
+    public void deleteUserWish(int userWishID) {
+        UserWishExample ex = new UserWishExample();
+        ex.createCriteria().andUserwishidEqualTo(userWishID);
+        userWishMapper.deleteByExample(ex);
     }
 }

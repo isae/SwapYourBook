@@ -7,17 +7,16 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
 import ru.ifmo.ctddev.swapyourbook.helpers.UserRole;
 import ru.ifmo.ctddev.swapyourbook.mybatis.dao.CustomUserMapper;
+import ru.ifmo.ctddev.swapyourbook.helpers.MyLoggable;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.AuthTokenMapper;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.FileMapper;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserMapper;
-import ru.ifmo.ctddev.swapyourbook.helpers.MyLoggable;
+import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserOfferMapper;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.*;
-import ru.ifmo.ctddev.swapyourbook.pojo.UserBookWrapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +30,8 @@ public class UserDAO implements MyLoggable {
     private UserMapper userMapper;
     @Autowired
     private CustomUserMapper customUserMapper;
+    @Autowired
+    private UserOfferMapper userOfferMapper;
     @Autowired
     private AuthTokenMapper authTokenMapper;
     @Autowired
@@ -91,7 +92,7 @@ public class UserDAO implements MyLoggable {
         List<AuthToken> tokens = authTokenMapper.selectByExample(example);
         assert tokens.size() == 1;
         AuthToken tok = tokens.get(0);
-        User user = new User(null, tok.getUsername(), UserRole.USER.role, tok.getEmail(), tok.getPassword());
+        User user = new User(null, tok.getUsername(), UserRole.USER.role, tok.getEmail(), tok.getPassword(),null,null,null,null);
         customUserMapper.insertWithoutID(user);
         authTokenMapper.deleteByExample(example);
         return user;
@@ -109,28 +110,10 @@ public class UserDAO implements MyLoggable {
         this.userMapper = userMapper;
     }
 
-    public List<UserBookWrapper> getBooksByUserID(int userID) {
-        boolean f = true;
-        return jdbcTemplate.query(
-                "SELECT * FROM user_book JOIN book USING(bookID) WHERE userID = ?",
-                new Object[]{userID},
-                new RowMapper<UserBookWrapper>() {
-                    @Override
-                    public UserBookWrapper mapRow(ResultSet rs, int i) throws SQLException {
-                        UserBookWrapper wrapper = new UserBookWrapper();
-                        Book book = new Book();
-                        book.setTitle(rs.getString("title"));
-                        book.setAuthor(rs.getString("author"));
-                        book.setThumbnailid(rs.getInt("thumbnailID"));
-                        book.setBookid(rs.getInt("bookID"));
-                        UserBook userBook = new UserBook();
-                        userBook.setBookid(rs.getInt("bookID"));
-                        userBook.setUserbookid(rs.getInt("userBookID"));
-                        wrapper.setBook(book);
-                        wrapper.setUserBook(userBook);
-                        return wrapper;
-                    }
-                });
+    public List<UserOffer> getOffersByUserID(int userID) {
+        UserOfferExample example = new UserOfferExample();
+        example.createCriteria().andOwherEqualTo(userID);
+        return userOfferMapper.selectByExample(example);
     }
 
     public byte[] getImageByID(int imageID) {

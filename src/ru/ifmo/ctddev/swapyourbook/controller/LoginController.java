@@ -39,20 +39,6 @@ public class LoginController implements MyLoggable {
     @Qualifier("securityContextRepository")
     SecurityContextRepository securityContextRepository;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView printHello(HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView mv = new ModelAndView("/login.jsp");
-        mv.addObject("pageName", "Login page");
-        logger.warn("Returning hello view");
-        return mv;
-    }
-
-    @RequestMapping(value = "logout",method = RequestMethod.GET)
-    public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView mv = new ModelAndView("/test.jsp");
-        return mv;
-    }
-
     @RequestMapping(value = "checkUsernameAvailable", method = RequestMethod.POST)
     public
     @ResponseBody

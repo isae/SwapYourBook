@@ -17,8 +17,8 @@
         });
         $(".clickableBook").click(function (e) {
             var $this = $(this);
-            var bookID = $this.find(".userBookID").text();
-            $(location).attr("href", "./book/editBookForm?userBookID=" + bookID);
+            var bookID = $this.find(".offerID").text();
+            $(location).attr("href", "./book/editBookForm?userOfferID=" + bookID);
         });
     }
     $(document).ready(function () {
@@ -47,14 +47,13 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="book" items="${userBooks}">
+    <c:forEach var="book" items="${userOffers}">
         <tr class="clickableBook">
-            <td class="hidden bookID">${book.book.bookid}</td>
-            <td class="hidden userBookID">${book.userBook.userbookid}</td>
-            <td>${book.book.title}</td>
-            <td>${book.book.author}</td>
+            <td class="hidden offerID">${book.bookid}</td>
+            <td>${book.title}</td>
+            <td>${book.author}</td>
             <td>____</td>
-            <td><img rel="zoom" class="zoomable" src="./book/image?imageID=${book.book.thumbnailid}"/></td>
+            <td><img rel="zoom" class="zoomable" src="./book/image?imageID=${book.thumbnailid}"/></td>
         </tr>
     </c:forEach>
     </tbody>

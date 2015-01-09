@@ -24,7 +24,7 @@
         <h3 class="panel-title">Добавить книгу</h3>
     </div>
     <div class="panel-body">
-        <form id="bookAddForm" role="form" method="post" action="./user/addBook" enctype="multipart/form-data">
+        <form id="bookAddForm" role="form" method="post" action="./user/addOffer" enctype="multipart/form-data">
             <%--<div class="form-group">
                 <select class="selectpicker">
                     <option value="1" selected>Отдам</option>

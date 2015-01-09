@@ -1,11 +1,11 @@
 package ru.ifmo.ctddev.swapyourbook.mybatis;
 
-import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.Book;
+import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.UserOffer;
 
 /**
  * Created by root on 12/28/14.
  */
-public class ExtendedBook extends Book {
+public class ExtendedBook extends UserOffer {
     private String imageLink;
 
     public int getUserBook() {
@@ -18,12 +18,12 @@ public class ExtendedBook extends Book {
 
     private int userBook;
 
-    public ExtendedBook(Integer bookid, String title, String author, String comment, Boolean fromGoogle, Integer thumbnailid, Boolean trusted) {
-        super(bookid, title, author, comment, fromGoogle, thumbnailid, trusted);
+    public ExtendedBook(Integer bookid, String title, String author, String comment, Boolean fromGoogle, Integer thumbnailid, Boolean trusted, int owner) {
+        super(bookid, title, author, comment, fromGoogle, thumbnailid, trusted,owner);
     }
 
-    public ExtendedBook(Book book) {
-        super(book.getBookid(), book.getTitle(), book.getAuthor(), book.getComment(), book.getFromGoogle(), book.getThumbnailid(), book.getTrusted());
+    public ExtendedBook(UserOffer book) {
+        super(book.getBookid(), book.getTitle(), book.getAuthor(), book.getComment(), book.getFromGoogle(), book.getThumbnailid(), book.getTrusted(), book.getOwher());
     }
 
     public ExtendedBook() {

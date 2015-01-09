@@ -1,11 +1,6 @@
 package ru.ifmo.ctddev.swapyourbook.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,13 +14,10 @@ import ru.ifmo.ctddev.swapyourbook.dao.UserDAO;
 import ru.ifmo.ctddev.swapyourbook.helpers.MyLoggable;
 import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.User;
 
-import javax.mail.Multipart;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Created by root on 12/30/14.
@@ -48,14 +40,6 @@ public class UserController extends MyController implements MyLoggable {
         return mav;
     }
 
-    @RequestMapping(value = "/myBooks", method = RequestMethod.POST)
-    public ModelAndView getUserBooks(
-            HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        ModelAndView mav = new ModelAndView("user_page/user_books.jsp");
-        return mav;
-    }
-
     @RequestMapping(value = "/myWishes", method = RequestMethod.POST)
     public ModelAndView getUserWishes(
             HttpServletRequest request, HttpServletResponse response)
@@ -69,15 +53,7 @@ public class UserController extends MyController implements MyLoggable {
             HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ModelAndView mav = new ModelAndView("user_page/user_offers.jsp");
-        mav.addObject("userBooks", userDAO.getBooksByUserID(getCurrentUser().getUserid()));
-        return mav;
-    }
-
-    @RequestMapping(value = "/mySaved", method = RequestMethod.POST)
-    public ModelAndView getUserSaved(
-            HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        ModelAndView mav = new ModelAndView("user_page/user_saved.jsp");
+        mav.addObject("userOffers", userDAO.getOffersByUserID(getCurrentUser().getUserid()));
         return mav;
     }
 
@@ -89,16 +65,16 @@ public class UserController extends MyController implements MyLoggable {
         return mav;
     }
 
-    @RequestMapping(value = "/addBook", headers = "content-type=multipart/*", method = RequestMethod.POST)
+    @RequestMapping(value = "/addOffer", headers = "content-type=multipart/*", method = RequestMethod.POST)
     @ResponseBody
-    public String addBookToUser(@RequestParam("bookTitle") String title,
-                                @RequestParam("authorName") String author,
-                                @RequestParam("userID") Integer userID,
-                                @RequestParam("bookDescription") String description,
-                                @RequestParam("bookThumbnail") MultipartFile thumbnail,
-                                MultipartHttpServletRequest request, HttpServletResponse response)
+    public String addOfferToUser(@RequestParam("bookTitle") String title,
+                                 @RequestParam("authorName") String author,
+                                 @RequestParam("userID") Integer userID,
+                                 @RequestParam("bookDescription") String description,
+                                 @RequestParam("bookThumbnail") MultipartFile thumbnail,
+                                 MultipartHttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        boolean result = bookDAO.addBookToUser(userID, author, title, description, thumbnail.getBytes());
+        boolean result = bookDAO.addOfferToUser(userID, author, title, description, thumbnail.getBytes());
         return String.valueOf(result);
     }
 }

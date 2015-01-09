@@ -13,7 +13,7 @@
     </tr>
     </thead>
     <tbody>
-    <%--<c:forEach var="book" items="${userBooks}">
+    <%--<c:forEach var="book" items="${userOffers}">
         <tr class="clickableBook">
             <td class="hidden bookID">${book.book.bookid}</td>
             <td>${book.book.title}</td>
