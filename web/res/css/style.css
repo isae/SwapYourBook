@@ -57,6 +57,11 @@ header {
 .wrapper_search-block__search {
     width: 80%;
 }
+
+.search-form__row_2 {
+    margin-bottom: 20px;
+}
+
 /*
 nav {
     float: right;

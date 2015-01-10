@@ -11,8 +11,7 @@ import ru.ifmo.ctddev.swapyourbook.mybatis.ExtendedBook;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class SearchDAO {
@@ -43,18 +42,20 @@ public class SearchDAO {
         List<ExtendedBook> books = new ArrayList<>();
         System.out.println("#############READY NIGGA#####");
         // search both by titles and authors
-        books.addAll(GoogleBooksSearcher.queryGoogleBooksCommon(requestedString, null));
+        books.addAll(GoogleBooksSearcher.queryGoogleBooksCommon(requestedString, requestedString));
 
-        List<String> matchedBooksAndAuthors = new ArrayList<>(books.size());
+        Set<String> sortedBooksAndAuthors = new HashSet<String>();
         for (int i = 0; i < books.size(); ++i) {
             if (books.get(i).getTitle().toLowerCase().contains(requestedString.toLowerCase())) {
-                matchedBooksAndAuthors.add(books.get(i).getTitle());
+                sortedBooksAndAuthors.add(books.get(i).getTitle());
             } else {
-                matchedBooksAndAuthors.add(books.get(i).getAuthor());
+                sortedBooksAndAuthors.add(books.get(i).getAuthor());
             }
         }
 
-        return matchedBooksAndAuthors;
+        List<String> sortedAsList = new ArrayList<>(sortedBooksAndAuthors.size());
+        sortedAsList.addAll(sortedBooksAndAuthors);
+        return sortedAsList;
     }
 
     public List<SearchItem> getSearchList(String requestedString,

@@ -41,7 +41,7 @@
         $('#authorName').autocomplete({
             serviceUrl: 'user/addOffer/authorAutocomplete',
             paramName: "requestedString",
-            maxCount: 10,
+            maxHeight: 400,
             transformResult: function (response) {
 
                 return {
@@ -58,7 +58,7 @@
         $('#bookTitle').autocomplete({
             serviceUrl: 'user/addOffer/titleAutocomplete',
             paramName: "requestedString",
-            maxCount: 10,
+            maxHeight: 400,
             transformResult: function (response) {
 
                 return {

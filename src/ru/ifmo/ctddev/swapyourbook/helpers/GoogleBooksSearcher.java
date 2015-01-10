@@ -101,11 +101,32 @@ public class GoogleBooksSearcher implements MyLoggable {
                             System.out.println("****Special string********************:" + volume.toString());
                         }
 
-                        book.setAuthor(mergeAutors(volume.getVolumeInfo().getAuthors()));
-                        book.setTitle(volume.getVolumeInfo().getTitle());
-                        book.setImageLink(volume.getVolumeInfo().getImageLinks().getSmallThumbnail());
+                        if (volume.getVolumeInfo().getAuthors() == null) {
+                            book.setAuthor("");
+                        } else {
+                            book.setAuthor(mergeAutors(volume.getVolumeInfo().getAuthors()));
+                        }
+
+                        if (volume.getVolumeInfo().getTitle() == null) {
+                            book.setTitle("");
+                        } else {
+                            book.setTitle(volume.getVolumeInfo().getTitle());
+                        }
+
+                        if (volume.getVolumeInfo().getImageLinks() == null) {
+                            book.setImageLink("");
+                        } else {
+                            book.setImageLink(volume.getVolumeInfo().getImageLinks().getSmallThumbnail());
+                        }
+
                         book.setFromGoogle(true);
-                        book.setComment(volume.getVolumeInfo().getDescription());
+
+                        if (volume.getVolumeInfo().getDescription() == null) {
+                            book.setComment("");
+                        } else {
+                            book.setComment(volume.getVolumeInfo().getDescription());
+                        }
+
                         books.add(book);
                         if (books.size() >= BOOK_LIST_MAX_SIZE) {
                             mustEnd = true;

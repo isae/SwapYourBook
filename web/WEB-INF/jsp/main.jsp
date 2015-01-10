@@ -42,6 +42,9 @@
                 serviceUrl: 'main/autocomplete',
                 paramName: "requestedString",
                 delimiter: ",",
+                minChars: 3,
+                deferRequestBy: 200,
+                maxHeight: 400,
                 transformResult: function (response) {
 
                     return {

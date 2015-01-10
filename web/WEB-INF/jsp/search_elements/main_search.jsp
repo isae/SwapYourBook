@@ -62,7 +62,7 @@
                         </div>
 
                         <div class="col-md-7">
-                            <h3 class="title">
+                            <h3 class="title" style="margin-top: 10px">
                                 ${item.title}
                             </h3>
                             <div class="author">
