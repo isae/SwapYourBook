@@ -181,4 +181,13 @@ public class BookDAO {
         example.createCriteria().andOwnerEqualTo(currentUser.getUserid());
         return userWishMapper.selectByExample(example);
     }
+
+    public void editUserWish(int userWishID, String authorName, String bookTitle) {
+        UserWish userWish = userWishMapper.selectByPrimaryKey(userWishID);
+        if(userWish!=null){
+            userWish.setTitle(bookTitle);
+            userWish.setAuthor(authorName);
+            userWishMapper.updateByPrimaryKey(userWish);
+        }
+    }
 }

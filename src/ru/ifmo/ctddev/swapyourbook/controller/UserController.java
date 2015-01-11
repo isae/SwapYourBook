@@ -77,6 +77,25 @@ public class UserController extends MyController implements MyLoggable {
         return "success";
     }
 
+    @RequestMapping(value = "/editUserWish", method = RequestMethod.POST)
+    public @ResponseBody String editUserWish(@RequestParam("userWishID") int userWishID,
+            @RequestParam("authorName") String authorName,
+                                            @RequestParam("bookTitle") String bookTitle,
+                                            HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        bookDAO.editUserWish(userWishID,authorName,bookTitle);
+        return "success";
+    }
+
+    @RequestMapping(value = "/deleteUserWish", method = RequestMethod.POST)
+    public @ResponseBody String deleteUserWish(@RequestParam("userWishID") int userWishID,
+                                             HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        bookDAO.deleteUserWish(userWishID);
+        return "success";
+    }
+
+
     @RequestMapping(value = "/myOffers", method = RequestMethod.POST)
     public ModelAndView getUserOffers(
             HttpServletRequest request, HttpServletResponse response)
