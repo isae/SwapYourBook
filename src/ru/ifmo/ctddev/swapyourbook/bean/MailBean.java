@@ -23,13 +23,14 @@ public class MailBean implements MyLoggable {
     private String generateAuthToken(){
         return new BigInteger(130, random).toString(32);
     }
+
     public boolean sendAuthToken(String email, String username, String password) {
         String token = generateAuthToken();
         logger.warn("Generated token is:"+token);
-        String link = "http://localhost:8080/SwapYourBook/login/handleAuthToken?authToken="+token;
+        String link = "http://178.62.246.183/:8080/SwapYourBook/login/handleAuthToken?authToken="+token;
         userDAO.addAuthToken(token,email,username,password);
         try {
-            Mailer.send("ilyha.hackmorda", "olo547OLO", email,
+            Mailer.send(email,
                     "Please, confirm your registration on SwapYourBook", "" +
                             "Please, follow this link: "+link);
         } catch (MessagingException e) {

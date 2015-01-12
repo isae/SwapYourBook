@@ -3,65 +3,6 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#addUserWishFormButton").click(function (e) {
-            $("#bookWishAddPane").collapse('toggle');
-        });
-
-        $("#submitBookWishAddFormButton").click(function (e) {
-            e.preventDefault();
-            $("#bookWishAddForm").ajaxForm({
-                async: false,
-                success: function (data) {
-                    $("#myWishesLink").trigger("click");
-                },
-                dataType: "text"
-            }).submit();
-        });
-
-        $(".clickableBook").click(function (e) {
-            var $this = $(this);
-            var id = $this.find(".userWishID").text();
-            var div1 = $this.find(".bookTitle"), div2 = $this.find(".bookAuthor");
-            var text1 = div1.text(), text2 = div2.text();
-            $("#userWishID").val(id);
-            $("#formAuthorName").val(text2);
-            $("#formBookTitle").val(text1);
-            $('#editUserWishModal').modal('show');
-        });
-
-        $("#editUserWishModalSubmitButton").click(function(e){
-            e.preventDefault();
-            $("#editUserWishForm").ajaxForm({
-                async: false,
-                success: function (data) {
-                    $("#myWishesLink").trigger("click");
-                },
-                dataType: "text"
-            }).submit();
-        });
-
-        $("#deleteUserWishButton").click(function(e){
-            e.preventDefault();
-            $.ajax({
-                type: 'POST',
-                async: false,
-                url: "./user/deleteUserWish",
-                data: {
-                    userWishID: $("#userWishID").val()
-                },
-
-                success: function (data) {
-                    $("#myWishesLink").trigger("click");
-                }
-            });
-        });
-
-
-
-    });
-</script>
 <h1>Заберу</h1>
 <table class="table table-hover">
     <thead>

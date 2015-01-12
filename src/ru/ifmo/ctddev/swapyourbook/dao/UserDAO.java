@@ -145,6 +145,10 @@ public class UserDAO implements MyLoggable {
     }
 
     public int addCity(final String cityName) {
+        CityExample example = new CityExample();
+        example.createCriteria().andNameLike(cityName);
+        List<City> results = cityMapper.selectByExample(example);
+        if (results.size() > 0) return results.get(0).getCityid();
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
                 new PreparedStatementCreator() {
@@ -163,19 +167,28 @@ public class UserDAO implements MyLoggable {
 
     public void editUser(User user, String userFirstName, String userLastName, String userEmail, String userCity, Integer cityID, byte[] bytes) {
         boolean mustUpdate = false;
-        City city = bookDAO.getCityByID(cityID);
+        City city;
+        if (cityID == null) {
+            if (userCity != null) {
+                int newCityID = addCity(userCity);
+                user.setCityid(newCityID);
+                mustUpdate=true;
+            }
+        } else {
+            city = bookDAO.getCityByID(cityID);
+            if (userCity != null && !city.getName().equals(userCity)) {
+                int newCityID = addCity(userCity);
+                user.setCityid(newCityID);
+                mustUpdate=true;
+            }
+        }
         mustUpdate = mustUpdate || (!userFirstName.equals(user.getFirstName()));
         mustUpdate = mustUpdate || (!userLastName.equals(user.getLastName()));
-        mustUpdate = mustUpdate || !userCity.equals(city.getName());
         mustUpdate = mustUpdate || bytes != null;
         if (mustUpdate) {
             user.setFirstName(userFirstName);
             user.setLastName(userLastName);
             user.setEmail(userEmail);
-            if (!userCity.equals(city.getName())) {
-                int newCityID = addCity(userCity);
-                user.setCityid(newCityID);
-            }
             if (bytes != null) {
                 int avaID = bookDAO.putFileToDB(bytes);
                 user.setAvatarid(avaID);

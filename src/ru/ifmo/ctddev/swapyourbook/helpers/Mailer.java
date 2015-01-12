@@ -23,16 +23,14 @@ public class Mailer {
     /**
      * send email using GMail SMTP server.
      *
-     * @param username GMail username
-     * @param password GMail password
      * @param recipientEmail TO recipient
      * @param title title of the message
      * @param message message to be sent
      * @throws AddressException if the email address parse failed
      * @throws MessagingException if the connection is dead or not in the connected state or if the message is not a MimeMessage
      */
-    public static void send(final String username, final String password, String recipientEmail, String title, String message) throws AddressException, MessagingException {
-        send(username, password, recipientEmail, "", title, message);
+    public static synchronized void send(String recipientEmail, String title, String message) throws AddressException, MessagingException {
+        send("swapyourbook.service", "koobruoypaws", recipientEmail, "", title, message);
     }
 
     /**
@@ -47,7 +45,7 @@ public class Mailer {
      * @throws AddressException if the email address parse failed
      * @throws MessagingException if the connection is dead or not in the connected state or if the message is not a MimeMessage
      */
-    public static void send(final String username, final String password, String recipientEmail, String ccEmail, String title, String message) throws AddressException, MessagingException {
+    private static synchronized void send(final String username, final String password, String recipientEmail, String ccEmail, String title, String message) throws AddressException, MessagingException {
         Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
         final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
 
@@ -84,7 +82,7 @@ public class Mailer {
         }
 
         msg.setSubject(title);
-        msg.setText(message, "utf-8");
+        msg.setContent(message, "text/html; charset=utf-8");
         msg.setSentDate(new Date());
 
         SMTPTransport t = (SMTPTransport)session.getTransport("smtps");

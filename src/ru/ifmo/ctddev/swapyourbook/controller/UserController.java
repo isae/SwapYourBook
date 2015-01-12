@@ -135,8 +135,8 @@ public class UserController extends MyController implements MyLoggable {
     String editBook(@RequestParam(value = "userFirstName", required = false, defaultValue = "") String userFirstName,
                     @RequestParam(value = "userLastName", required = false, defaultValue = "") String userLastName,
                     @RequestParam(value = "userEMail") String userEmail,
-                    @RequestParam(value = "userCity", required = false, defaultValue = "") String userCity,
-                    @RequestParam(value = "cityID") Integer cityID,
+                    @RequestParam(value = "userCity", required = false) String userCity,
+                    @RequestParam(value = "cityID", required = false) Integer cityID,
                     @RequestParam(value = "userAvatar", required = false) MultipartFile avatar,
                     MultipartHttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

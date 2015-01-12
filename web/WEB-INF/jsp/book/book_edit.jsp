@@ -22,6 +22,39 @@
             zoomable.click(function (e) {
                 e.stopPropagation();
             });
+            $('#authorName').autocomplete({
+                serviceUrl: 'user/addOffer/authorAutocomplete',
+                paramName: "requestedString",
+                maxHeight: 400,
+                transformResult: function (response) {
+
+                    return {
+                        //must convert json to javascript object before process
+                        suggestions: $.map($.parseJSON(response), function (item) {
+                            return { value: item.tagName, data: item.id };
+                        })
+
+                    };
+
+                }
+            });
+
+            $('#bookTitle').autocomplete({
+                serviceUrl: 'user/addOffer/titleAutocomplete',
+                paramName: "requestedString",
+                maxHeight: 400,
+                transformResult: function (response) {
+
+                    return {
+                        //must convert json to javascript object before process
+                        suggestions: $.map($.parseJSON(response), function (item) {
+                            return { value: item.tagName, data: item.id };
+                        })
+
+                    };
+
+                }
+            });
             $("#submitBookEditFormButton").click(function (e) {
                 e.preventDefault();
                 $("#bookEditForm").ajaxForm({

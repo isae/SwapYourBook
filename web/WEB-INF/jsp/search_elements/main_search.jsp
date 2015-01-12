@@ -25,14 +25,14 @@
             <img style="max-height: 100px; max-width: 100px" rel="zoom" class="zoomable" src="./book/image?imageID=${item.imgID}">
         </div>
         <div class="description">
-            <h3 class="title">
+            <h3 style="cursor: pointer" class="title">
                 <a data-toggle="modal" data-target="#bookInfoModal${count}">${item.title}</a>
             </h3>
             <div class="author">
                     ${item.author}
             </div>
             <div class="owner">
-                <a href="./user">${item.owner}</a>
+                <a href="mailto:${item.owner.email}">${item.owner.username}</a>
             </div>
         </div>
     </div>
@@ -55,7 +55,7 @@
 
                             <div class="owner-item" style="margin-top: 10px">
                                 <h4 class="some_text">
-                                    Владелец: <a href="./user">${item.owner}</a>
+                                    Владелец: <a href="mailto:${item.owner.email}.">${item.owner.username}</a>
                                 </h4>
                             </div>
 

@@ -190,4 +190,36 @@ public class BookDAO {
             userWishMapper.updateByPrimaryKey(userWish);
         }
     }
+
+    public void updateWish(UserWish wish) {
+        userWishMapper.updateByPrimaryKey(wish);
+    }
+
+    public synchronized List<UserWish> getAllPendingWishes() {
+       UserWishExample example = new UserWishExample();
+        example.createCriteria().andMessageSentLessThan(3);
+        return userWishMapper.selectByExample(example);
+    }
+
+    public synchronized List<User> findUsersWithMatchingBooks(UserWish wish) {
+        String queryString = "SELECT user.* FROM user JOIN user_offer ON (user.userID = user_offer.owner) WHERE user_offer.title LIKE ? and user_offer.author LIKE ?";
+        List<User> result;
+        result = jdbcTemplate.query(queryString, new Object[]{wish.getTitle(),wish.getAuthor()}, new RowMapper<User>() {
+            @Override
+            public User mapRow(ResultSet rs, int i) throws SQLException {
+                return new User(
+                        rs.getInt("user.userID"),
+                        rs.getString("user.username"),
+                        rs.getInt("user.role"),
+                        rs.getString("user.email"),
+                        rs.getString("user.password"),
+                        rs.getString("user.first_name"),
+                        rs.getString("user.last_name"),
+                        rs.getInt("avatarID"),
+                        rs.getInt("cityID"));
+
+            }
+        });
+        return result;
+    }
 }

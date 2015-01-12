@@ -16,21 +16,11 @@
 
 <link href="<s:url value="/res/css/autocomplete-style.css" />" rel="stylesheet" type="text/css"/>
 
-<script>
-    $(document).ready(function () {
-/*        $('.selectpicker').selectpicker({
-            size: 4
-        });*/
-
-        alert("kokoko");
-    })
+<script type="text/javascript">
     $(document).ready(function () {
         $('#authorName').autocomplete({
-            serviceUrl: 'user/addOfferAgain/autocomplete',
-            paramName: {
-                requestedString: requestedString,
-                isByAuthor: true
-            },
+            serviceUrl: 'user/addOffer/authorAutocomplete',
+            paramName: "requestedString",
             // max_length: 30,
             transformResult: function (response) {
 
@@ -44,11 +34,9 @@
 
             }
         });
-    })
 
-    $(document).ready(function () {
         $('#bookTitle').autocomplete({
-            serviceUrl: 'user/addOfferAgain/autocomplete',
+            serviceUrl: 'user/addOffer/titleAutocomplete',
             paramName: "requestedString",
             // max_length: 30,
             transformResult: function (response) {

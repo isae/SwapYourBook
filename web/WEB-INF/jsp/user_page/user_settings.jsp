@@ -1,55 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
-<link href="<s:url value="/res/frameworks/select2/select2.css" />" rel="stylesheet"/>
-<script src="<s:url value="/res/frameworks/select2/select2.min.js" />"></script>
-<script type="text/javascript" src="<s:url value="/res/frameworks/smoothzoom/szoom.js" />"></script>
-<script src="<s:url value="/res/frameworks/notifyjs/notify.min.js" />" type="text/javascript"></script>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<script>
 
-    $(document).ready(function () {
-        $("#editUserButton").click(function (e) {
-            e.preventDefault();
-            $("#userEditForm").ajaxForm({
-                async:false,
-                success: function (data) {
-                    $.notify("Успешно!", "success");
-                },
-                dataType: "text"
-            }).submit();
-        });
-        $("#changePasswordButton").click(function (e) {
-            e.preventDefault();
-            $("#changePasswordForm").ajaxForm({
-                async:false,
-                success: function (data) {
-                    var response = JSON.parse(data);
-                    $.notify(response.value,response.key);
-                },
-                dataType: "text"
-            }).submit();
-        });
-
-        $('#userCity').autocomplete({
-            serviceUrl: 'user/addOffer/cityAutocomplete',
-            paramName: "requestedString",
-            maxCount: 10,
-            transformResult: function (response) {
-
-                return {
-                    //must convert json to javascript object before process
-                    suggestions: $.map($.parseJSON(response), function (item) {
-                        return { value: item.tagName, data: item.id };
-                    })
-
-                };
-
-            }
-        });
-    });
-
-</script>
 <h1>Мои настройки</h1>
 
 <div class="panel panel-info">

@@ -1,5 +1,7 @@
 package ru.ifmo.ctddev.swapyourbook.helpers;
 
+import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.User;
+
 import java.util.List;
 
 public class SearchItem {
@@ -7,7 +9,7 @@ public class SearchItem {
     private String title;
     private String author;
     private int imgID;
-    private String owner;
+    private User owner;
     private int ownerId;
 
     public String getComment() {
@@ -28,11 +30,11 @@ public class SearchItem {
         this.ownerId = ownerId;
     }
 
-    public String getOwner() {
+    public User getOwner() {
         return owner;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(User owner) {
         this.owner = owner;
     }
 

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import ru.ifmo.ctddev.swapyourbook.helpers.GoogleBooksSearcher;
 import ru.ifmo.ctddev.swapyourbook.helpers.SearchItem;
 import ru.ifmo.ctddev.swapyourbook.mybatis.ExtendedBook;
+import ru.ifmo.ctddev.swapyourbook.mybatis.gen.dao.UserMapper;
+import ru.ifmo.ctddev.swapyourbook.mybatis.gen.model.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,25 +19,14 @@ import java.util.*;
 public class SearchDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private UserMapper userMapper;
 
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
     public JdbcTemplate getJdbcTemplate() {
         return jdbcTemplate;
-    }
-
-    // todo remove
-    public int getNumberOfIntersectingStrings(String requestedString) {
-        String[] database = {"kokoko", "koko", "deyneka", "isaev", "mazin"};
-
-        int cnt = 0;
-        for (int i = 0; i < database.length; ++i) {
-            if (database[i].toLowerCase().contains(requestedString.toLowerCase())) {
-                ++cnt;
-            }
-        }
-        return cnt;
     }
 
     public List<String> getAutocompleteList(String requestedString) {
@@ -90,18 +81,12 @@ public class SearchDAO {
         for (int i = 0; i < matchedBooks.size(); ++i) {
             SearchItem item = matchedBooks.get(i);
             int requestedId = item.getOwnerId();
-            List<String> owners = jdbcTemplate.query("SELECT * FROM user WHERE userID=?", new Object[]{requestedId}, new RowMapper<String>() {
-                @Override
-                public String mapRow(ResultSet rs, int i) throws SQLException {
-                    return rs.getString("username");
-                }
-            });
+            User owner = userMapper.selectByPrimaryKey(requestedId);
 
-            assert owners.size() == 1;
-            item.setOwner(owners.get(0));
+            item.setOwner(owner);
 
             if (item.getComment() == null) {
-                item.setComment("ВЛАДЕЛЕЦ НЕ УКАЗАЛ ОПИСАНИЯ. ХАХАХА");
+                item.setComment("Описания нет");
             }
         }
 

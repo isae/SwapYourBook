@@ -4,9 +4,7 @@
 
 
 function checkPasswdEquality() {
-    var result = $("#reg_passwd").val() === $("#reg_confirm").val();
-    alert(result);
-    return result;
+    return $("#reg_passwd").val() === $("#reg_confirm").val();
 }
 function checkEmail(email) {
     var filter = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i

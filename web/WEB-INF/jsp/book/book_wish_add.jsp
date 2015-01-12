@@ -25,7 +25,7 @@
                 <label for="bookTitle">Название:</label>
                 <input type="text" name="bookTitle" class="form-control" id="bookTitle" placeholder="Название книги">
             </div>
-            <button id="submitBookWishAddFormButton" class="btn btn-info">Добавить</button>
         </form>
+        <button id="submitBookWishAddFormButton" class="btn btn-info">Добавить</button>
     </div>
 </div>

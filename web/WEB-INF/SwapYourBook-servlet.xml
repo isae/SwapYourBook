@@ -4,6 +4,7 @@
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:beans="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="
         http://www.springframework.org/schema/beans
@@ -11,7 +12,8 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd">
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
     <!-- the application context definition for the springapp DispatcherServlet -->
 
     <context:annotation-config/>
@@ -25,6 +27,10 @@
     <context:component-scan base-package="ru.ifmo.ctddev.swapyourbook.test.**"/>
     <context:component-scan base-package="ru.ifmo.ctddev.swapyourbook.bean.**"/>
     <context:component-scan base-package="ru.ifmo.ctddev.swapyourbook.controller.**"/>
+
+    <task:annotation-driven scheduler="myScheduler"/>
+    <bean id="wishOfferMatcher" class="ru.ifmo.ctddev.swapyourbook.helpers.WishOfferMatchingFinder"/>
+    <task:scheduler id="myScheduler" pool-size="10"/>
 
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver"
