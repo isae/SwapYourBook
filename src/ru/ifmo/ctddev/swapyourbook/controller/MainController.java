@@ -46,16 +46,7 @@ public class MainController extends MyController{
         try {
             List<String> suggestions = searchDAO.getAutocompleteList(requestedString);
 
-            for (int i = 0; i < suggestions.size(); ++i) {
-                System.out.println("##" + i + " " + suggestions.get(i));
-            }
-            // todo mb remove tags -> only strings
-            List<Tag> tags = new ArrayList<>(suggestions.size());
-            for (int i = 0; i < suggestions.size(); ++i) {
-                tags.add(new Tag(i, suggestions.get(i)));
-            }
-
-            return mapper.writeValueAsString(tags);
+            return mapper.writeValueAsString(suggestions);
         } catch (IOException e) {
             logger.error("IO error:", e);
         }

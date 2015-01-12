@@ -57,8 +57,6 @@ public class GoogleBooksSearcher implements MyLoggable {
             author = "\"" + author + "\"";
         }
 
-        System.out.println("#############TITLE:" + title + "      #############AUTHOR:" + author);
-
         if ((title != null) && (author != null)) {
             query = "(intitle:" + title + ")OR(inauthor:" + author + ")";
         } else if (title != null) {
@@ -96,10 +94,6 @@ public class GoogleBooksSearcher implements MyLoggable {
                 if (volumes != null && volumes.getItems() != null) {
                     for (Volume volume : volumes.getItems()) {
                         ExtendedBook book = new ExtendedBook();
-
-                        if (volume.getVolumeInfo().getAuthors() == null) {
-                            System.out.println("****Special string********************:" + volume.toString());
-                        }
 
                         if (volume.getVolumeInfo().getAuthors() == null) {
                             book.setAuthor("");
@@ -140,6 +134,7 @@ public class GoogleBooksSearcher implements MyLoggable {
         } catch (GeneralSecurityException | IOException e) {
             logger.error("Books search error: ", e);
         }
+
         return books;
     }
 

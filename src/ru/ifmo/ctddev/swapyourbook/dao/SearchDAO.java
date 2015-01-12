@@ -31,7 +31,6 @@ public class SearchDAO {
 
     public List<String> getAutocompleteList(String requestedString) {
         List<ExtendedBook> books = new ArrayList<>();
-        System.out.println("#############READY NIGGA#####");
         // search both by titles and authors
         books.addAll(GoogleBooksSearcher.queryGoogleBooksCommon(requestedString, requestedString));
 
@@ -53,6 +52,7 @@ public class SearchDAO {
                                           boolean isByAuthor) {
         assert jdbcTemplate != null;
 
+
         String request = "%" + requestedString + "%";
         String queryString;
         List<SearchItem> matchedBooks = null;
@@ -62,6 +62,8 @@ public class SearchDAO {
         } else {
             queryString = "SELECT * FROM user_offer WHERE author LIKE ?";
         }
+
+
 
         // Find books
         matchedBooks = jdbcTemplate.query(queryString, new Object[]{request}, new RowMapper<SearchItem>() {
@@ -77,6 +79,7 @@ public class SearchDAO {
                         return item;
                     }
                 });
+
 
         for (int i = 0; i < matchedBooks.size(); ++i) {
             SearchItem item = matchedBooks.get(i);

@@ -50,7 +50,7 @@
                     return {
                         //must convert json to javascript object before process
                         suggestions: $.map($.parseJSON(response), function (item) {
-                            return { value: item.tagName, data: item.id };
+                            return { value: item };
                         })
 
                     };
@@ -123,14 +123,6 @@
     </div>
 </div>
 
-<%--<footer>
-    <div class="container " id="footer">
-        <div id="footer-content">
-            <a href="/"><img src="<s:url value="/res/images/deyneka.jpg"/>" alt="Deyneka already here" height="50" width=auto></a>
-            <p>Copyright © 2014 Deynekology.</p>
-        </div>
-    </div>
-</footer>--%>
 <div class="modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="regModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
