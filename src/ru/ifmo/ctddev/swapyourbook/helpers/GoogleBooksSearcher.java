@@ -27,7 +27,7 @@ public class GoogleBooksSearcher implements MyLoggable {
     private static final NumberFormat CURRENCY_FORMATTER = NumberFormat.getCurrencyInstance();
     private static final NumberFormat PERCENT_FORMATTER = NumberFormat.getPercentInstance();
 
-    static final String API_KEY = "AIzaSyBgVNBOnseCKWhuTPrQMa6wVbmTJ0x6gTg";
+    static final String API_KEY = "AIzaSyB5G1sk5RvMVL_nnioBP8M3yOxCckAW8xU";
     static final long BOOK_API_MAX_RESULTS = 40l;
     static final int BOOK_LIST_MAX_SIZE = 10;
 
