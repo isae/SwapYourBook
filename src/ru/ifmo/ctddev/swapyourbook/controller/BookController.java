@@ -53,9 +53,15 @@ public class BookController extends MyController implements MyLoggable {
     public ModelAndView getBookEditForm(@RequestParam("userOfferID") int userOfferID,
                                         HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ModelAndView mav = new ModelAndView("book/book_edit.jsp");
+        ModelAndView mav;
         UserOffer book = bookDAO.getUserOffer(userOfferID);
-        mav.addObject("book", book);
+        User user = getCurrentUser();
+        if (book!=null&&user.getUserid().equals(book.getOwner())) {
+            mav = new ModelAndView("book/book_edit.jsp");
+            mav.addObject("book", book);
+        } else {
+            mav = new ModelAndView("redirect:/user");
+        }
         return mav;
     }
 

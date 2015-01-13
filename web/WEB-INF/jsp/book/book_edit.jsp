@@ -15,6 +15,8 @@
     <link href="<s:url value="/res/frameworks/smoothzoom/szoom.css" />" rel="stylesheet"/>
     <script type="text/javascript" src="<s:url value="/res/frameworks/smoothzoom/szoom.js" />"></script>
     <script src="<s:url value="/res/js/jquery-form.js" />" type="text/javascript"></script>
+    <script src="<s:url value="/res/js/jquery.autocomplete.js" />" type="text/javascript"></script>
+    <link href="<s:url value="/res/css/autocomplete-style.css" />" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
         $(document).ready(function () {
             var zoomable = $('.zoomable');
@@ -23,7 +25,7 @@
                 e.stopPropagation();
             });
             $('#authorName').autocomplete({
-                serviceUrl: 'user/addOffer/authorAutocomplete',
+                serviceUrl: '../user/addOffer/authorAutocomplete',
                 paramName: "requestedString",
                 maxHeight: 400,
                 transformResult: function (response) {
@@ -40,7 +42,7 @@
             });
 
             $('#bookTitle').autocomplete({
-                serviceUrl: 'user/addOffer/titleAutocomplete',
+                serviceUrl: '../user/addOffer/titleAutocomplete',
                 paramName: "requestedString",
                 maxHeight: 400,
                 transformResult: function (response) {

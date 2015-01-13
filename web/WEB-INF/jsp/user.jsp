@@ -12,6 +12,7 @@
     <script type="text/javascript" src="<s:url value="/res/frameworks/smoothzoom/szoom.js" />"></script>
     <script src="<s:url value="/res/frameworks/notifyjs/notify.min.js" />" type="text/javascript"></script>
     <script src="<s:url value="/res/js/jquery.autocomplete.js" />" type="text/javascript"></script>
+    <link href="<s:url value="/res/css/autocomplete-style.css" />" rel="stylesheet" type="text/css"/>
     <script src="<s:url value="/res/js/user.js" />" type="text/javascript"></script>
 
     <title>User Page</title>
