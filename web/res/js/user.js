@@ -44,7 +44,7 @@ function prepareForWork() {
             return {
                 //must convert json to javascript object before process
                 suggestions: $.map($.parseJSON(response), function (item) {
-                    return { value: item.tagName, data: item.id };
+                    return { value: item };
                 })
 
             };
@@ -61,7 +61,7 @@ function prepareForWork() {
             return {
                 //must convert json to javascript object before process
                 suggestions: $.map($.parseJSON(response), function (item) {
-                    return { value: item.tagName, data: item.id };
+                    return { value: item };
                 })
 
             };
@@ -152,7 +152,7 @@ $(document).ready(function () {
                 return {
                     //must convert json to javascript object before process
                     suggestions: $.map($.parseJSON(response), function (item) {
-                        return { value: item.tagName, data: item.id };
+                        return { value: item };
                     })
 
                 };
@@ -169,7 +169,7 @@ $(document).ready(function () {
                 return {
                     //must convert json to javascript object before process
                     suggestions: $.map($.parseJSON(response), function (item) {
-                        return { value: item.tagName, data: item.id };
+                        return { value: item };
                     })
 
                 };
@@ -186,7 +186,7 @@ $(document).ready(function () {
                 return {
                     //must convert json to javascript object before process
                     suggestions: $.map($.parseJSON(response), function (item) {
-                        return { value: item.tagName, data: item.id };
+                        return { value: item };
                     })
 
                 };
@@ -203,7 +203,7 @@ $(document).ready(function () {
                 return {
                     //must convert json to javascript object before process
                     suggestions: $.map($.parseJSON(response), function (item) {
-                        return { value: item.tagName, data: item.id };
+                        return { value: item };
                     })
 
                 };
@@ -248,7 +248,7 @@ $(document).ready(function () {
                 return {
                     //must convert json to javascript object before process
                     suggestions: $.map($.parseJSON(response), function (item) {
-                        return { value: item.tagName, data: item.id };
+                        return { value: item };
                     })
 
                 };

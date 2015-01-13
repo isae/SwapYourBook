@@ -2,6 +2,25 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#addUserWishFormButton").click(function(e){
+            $("#bookWishAddPane").collapse('toggle');
+        });
+
+        $("#submitBookWishAddFormButton").click(function (e) {
+            e.preventDefault();
+            $("#bookWishAddForm").ajaxForm({
+                async: false,
+                success: function (data) {
+                    $("#myWishesLink").trigger("click");
+                },
+                dataType: "text"
+            }).submit();
+        })
+
+    });
+</script>
 
 <h1>Заберу</h1>
 <table class="table table-hover">
@@ -14,13 +33,8 @@
     <tbody>
     <c:forEach var="book" items="${wishes}">
         <tr class="clickableBook">
-            <td class="hidden userWishID">${book.userwishid}</td>
-            <td>
-                <div class="bookTitle">${book.title}</div>
-            </td>
-            <td>
-                <div class="bookAuthor">${book.author}</div>
-            </td>
+            <td>${book.title}</td>
+            <td>${book.author}</td>
         </tr>
     </c:forEach>
     </tbody>
@@ -33,35 +47,4 @@
 </button>
 <div class="collapse container-fluid" id="bookWishAddPane">
     <jsp:include page="/book/addBookWishForm"/>
-</div>
-<div class="modal fade" id="editUserWishModal" tabindex="-1" role="dialog" aria-labelledby="editUserWishModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <form action="./user/editUserWish" method="post" id="editUserWishForm">
-            <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal"><span
-                            aria-hidden="true">&times;</span><span
-                            class="sr-only">Закрыть</span></button>
-                    <h4 class="modal-title" id="editUserWish">Редактировать</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="userWishID" id="userWishID">
-                    <div class="form-group">
-                    <label for="formAuthorName">Автор:</label>
-                    <input type="text" id="formAuthorName" name="authorName">
-                </div>
-                <div class="form-group">
-                    <label for="formBookTitle">Название:</label>
-                    <input type="text" id="formBookTitle" name="bookTitle" >
-                </div>
-                </div>
-                <div class="modal-footer">
-                    <button id="editUserWishModalSubmitButton" type="button" class="btn btn-primary" data-dismiss="modal">Сохранить</button>
-                    <button id="deleteUserWishButton" type="button" class="btn btn-danger" data-dismiss="modal">Удалить</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                </div>
-            </div>
-        </form>
-    </div>
 </div>
